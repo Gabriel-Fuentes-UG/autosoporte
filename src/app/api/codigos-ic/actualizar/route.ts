@@ -130,10 +130,15 @@ export async function POST(request: NextRequest) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos
 
+    // Construir URL desde variables de entorno
+    const baseUrl = process.env.EXTERNAL_API_BASE_URL || 'https://www.vectordelta.com.mx:81';
+    const endpoint = process.env.EXTERNAL_API_CODIGOS_IC_ENDPOINT || '/UnionGroup/API/Insert/dd/CodigosIC';
+    const fullUrl = `${baseUrl}${endpoint}`;
+
     let externalResponse: Response;
     try {
       externalResponse = await fetch(
-        'https://www.vectordelta.com.mx:81/UnionGroup/API/Insert/dd/CodigosIC',
+        fullUrl,
         {
           method: 'POST',
           headers: {

@@ -39,12 +39,17 @@ export async function GET(request: NextRequest) {
     const apiPassword = process.env.EXTERNAL_API_PASSWORD || 'AccesoWhslReebok2025@UnionGroup.Com';
     const basicAuth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64');
 
+    // Construir URL desde variables de entorno
+    const baseUrl = process.env.EXTERNAL_API_BASE_URL || 'https://www.vectordelta.com.mx:81';
+    const endpoint = process.env.EXTERNAL_API_CLIENTES_ENDPOINT || '/UnionGroup/API/Query/MasterData/ClientesParaCodigosIC';
+    const fullUrl = `${baseUrl}${endpoint}`;
+
     // Intentar obtener del API externo con timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos timeout
 
     const response = await fetch(
-      'https://www.vectordelta.com.mx:81/UnionGroup/API/Query/MasterData/ClientesParaCodigosIC',
+      fullUrl,
       {
         method: 'GET',
         headers: {
