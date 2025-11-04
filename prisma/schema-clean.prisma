@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model IC_Users {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique @db.NVarChar(100)
+  password_hash String   @db.NVarChar(255)
+  role          String   @default("user") @db.NVarChar(50)
+  created_at    DateTime @default(now())
+  
+  @@map("IC_Users")
+}
+
+model IC_Logs {
+  id        Int       @id @default(autoincrement())
+  user_id   Int?
+  action    String    @db.NVarChar(100)
+  details   String?   @db.NVarChar(Max)
+  timestamp DateTime  @default(now())
+  
+  @@map("IC_Logs")
+  @@index([user_id])
+}
+
+model IC_Codes {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique @db.NVarChar(100)
+  description String?  @db.NVarChar(500)
+  category    String   @db.NVarChar(50)
+  status      String   @default("active") @db.NVarChar(20)
+  created_by  Int?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  
+  @@map("IC_Codes")
+  @@index([category])
+  @@index([status])
+}

@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "windows", "darwin", "darwin-arm64", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model IC_Users {
+  id            Int       @id(map: "PK__IC_Users__3213E83F3650DF97") @default(autoincrement())
+  username      String    @unique(map: "UQ__IC_Users__F3DBC5723100E9EF") @db.NVarChar(100)
+  password_hash String    @db.NVarChar(200)
+  role          String    @default("user", map: "DF__IC_Users__role__70DDC3D8") @db.NVarChar(50)
+  created_at    DateTime? @default(dbgenerated("sysutcdatetime()"), map: "DF__IC_Users__create__71D1E811")
+  email         String    @unique @default("", map: "DF__IC_Users__email__75A278F5") @db.NVarChar(200)
+  is_active     Boolean   @default(true, map: "DF__IC_Users__is_act__76969D2E")
+  updated_at    DateTime? @default(dbgenerated("sysutcdatetime()"), map: "DF__IC_Users__update__778AC167") @updatedAt
+
+  @@map("IC_Users")
+}
+
+model IC_Logs {
+  id            Int       @id(map: "PK__IC_Logs__3213E83FB9DAC845") @default(autoincrement())
+  user          String    @db.NVarChar(100)
+  folio_interno String    @db.NVarChar(150)
+  action        String    @db.NVarChar(200)
+  details       String?   @db.NVarChar(Max)
+  created_at    DateTime? @default(now())
+  cliente       String?   @db.NVarChar(200)
+  status        String    @default("PENDIENTE") @db.NVarChar(20)
+  cliente_code  String?   @db.NVarChar(50)
+  updated_by    String?   @db.NVarChar(100)
+  updated_at    DateTime? @updatedAt
+  
+  codes         IC_Codes[]
+
+  @@index([status], map: "IX_IC_Logs_status")
+  @@index([folio_interno], map: "IX_IC_Logs_folio_interno")
+  @@index([cliente_code], map: "IX_IC_Logs_cliente_code")
+  @@index([user, created_at(sort: Desc)], map: "IX_IC_Logs_user_date")
+  @@index([cliente, created_at(sort: Desc)], map: "IX_IC_Logs_cliente_date")
+  @@map("IC_Logs")
+}
+
+model IC_Codes {
+  id         Int       @id(map: "PK__IC_Codes__3213E83F1CAF7DE9") @default(autoincrement())
+  log_id     Int
+  producto   String    @db.NVarChar(100)
+  codigo_ic  String    @db.NVarChar(100)
+  created_at DateTime  @default(now())
+  
+  log        IC_Logs   @relation(fields: [log_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([log_id], map: "IX_IC_Codes_log_id")
+  @@index([log_id, producto], map: "IX_IC_Codes_log_producto")
+  @@map("IC_Codes")
+}
+
+model EFMigrationsHistory {
+  MigrationId    String @id(map: "PK___EFMigrationsHistory") @db.NVarChar(150)
+  ProductVersion String @db.NVarChar(32)
+
+  @@map("__EFMigrationsHistory")
+}
+
+model AspNetRoleClaims {
+  Id          Int         @id(map: "PK_AspNetRoleClaims") @default(autoincrement())
+  RoleId      String      @db.NVarChar(450)
+  ClaimType   String?     @db.NVarChar(Max)
+  ClaimValue  String?     @db.NVarChar(Max)
+  AspNetRoles AspNetRoles @relation(fields: [RoleId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetRoleClaims_AspNetRoles_RoleId")
+
+  @@index([RoleId], map: "IX_AspNetRoleClaims_RoleId")
+}
+
+model AspNetRoles {
+  Id               String             @id(map: "PK_AspNetRoles") @db.NVarChar(450)
+  Name             String?            @db.NVarChar(256)
+  NormalizedName   String?            @db.NVarChar(256)
+  ConcurrencyStamp String?            @db.NVarChar(Max)
+  AspNetRoleClaims AspNetRoleClaims[]
+  AspNetUserRoles  AspNetUserRoles[]
+}
+
+model AspNetUserClaims {
+  Id          Int         @id(map: "PK_AspNetUserClaims") @default(autoincrement())
+  UserId      String      @db.NVarChar(450)
+  ClaimType   String?     @db.NVarChar(Max)
+  ClaimValue  String?     @db.NVarChar(Max)
+  AspNetUsers AspNetUsers @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetUserClaims_AspNetUsers_UserId")
+
+  @@index([UserId], map: "IX_AspNetUserClaims_UserId")
+}
+
+model AspNetUserLogins {
+  LoginProvider       String      @db.NVarChar(450)
+  ProviderKey         String      @db.NVarChar(450)
+  ProviderDisplayName String?     @db.NVarChar(Max)
+  UserId              String      @db.NVarChar(450)
+  AspNetUsers         AspNetUsers @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetUserLogins_AspNetUsers_UserId")
+
+  @@id([LoginProvider, ProviderKey], map: "PK_AspNetUserLogins")
+  @@index([UserId], map: "IX_AspNetUserLogins_UserId")
+}
+
+model AspNetUserRoles {
+  UserId      String      @db.NVarChar(450)
+  RoleId      String      @db.NVarChar(450)
+  AspNetRoles AspNetRoles @relation(fields: [RoleId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetUserRoles_AspNetRoles_RoleId")
+  AspNetUsers AspNetUsers @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetUserRoles_AspNetUsers_UserId")
+
+  @@id([UserId, RoleId], map: "PK_AspNetUserRoles")
+  @@index([RoleId], map: "IX_AspNetUserRoles_RoleId")
+}
+
+model AspNetUsers {
+  Id                   String             @id(map: "PK_AspNetUsers") @default("newid()", map: "DF_AspNetUsers_Id") @db.NVarChar(450)
+  UserName             String?            @db.NVarChar(256)
+  NormalizedUserName   String?            @db.NVarChar(256)
+  Email                String?            @db.NVarChar(256)
+  NormalizedEmail      String?            @db.NVarChar(256)
+  EmailConfirmed       Boolean
+  PasswordHash         String?            @db.NVarChar(Max)
+  SecurityStamp        String?            @db.NVarChar(Max)
+  ConcurrencyStamp     String?            @db.NVarChar(Max)
+  PhoneNumber          String?            @db.NVarChar(Max)
+  PhoneNumberConfirmed Boolean
+  TwoFactorEnabled     Boolean
+  LockoutEnd           DateTime?          @db.DateTimeOffset
+  LockoutEnabled       Boolean
+  AccessFailedCount    Int
+  IsVerified           Boolean            @default(dbgenerated("CONVERT([bit],(0))"), map: "DF__AspNetUse__IsVer__4AB81AF0")
+  Perfil               Int                @default(0, map: "DF__AspNetUse__Perfi__4BAC3F29")
+  AspNetUserClaims     AspNetUserClaims[]
+  AspNetUserLogins     AspNetUserLogins[]
+  AspNetUserRoles      AspNetUserRoles[]
+  AspNetUserTokens     AspNetUserTokens[]
+
+  @@index([NormalizedEmail], map: "EmailIndex")
+}
+
+model AspNetUserTokens {
+  UserId        String      @db.NVarChar(450)
+  LoginProvider String      @db.NVarChar(450)
+  Name          String      @db.NVarChar(450)
+  Value         String?     @db.NVarChar(Max)
+  AspNetUsers   AspNetUsers @relation(fields: [UserId], references: [Id], onDelete: Cascade, onUpdate: NoAction, map: "FK_AspNetUserTokens_AspNetUsers_UserId")
+
+  @@id([UserId, LoginProvider, Name], map: "PK_AspNetUserTokens")
+}
+
+model Facturas {
+  Numero_Pedido  Int       @id(map: "PK_Facturas")
+  Referencia     String    @db.VarChar(50)
+  Numero_Entrega Int?
+  Status_Entrega String?   @db.Char(1)
+  Entrega_Canc   Boolean   @default(false, map: "DF__Facturas__Entreg__66603565")
+  Fecha_OV       DateTime? @db.DateTime
+  Fecha_Factura  DateTime? @db.DateTime
+  UFID           String?   @db.UniqueIdentifier
+  Numero_Factura Int?
+  Status_Fact    String?   @db.Char(1)
+  Cancelada      Boolean   @default(false, map: "DF__Facturas__Cancel__6754599E")
+  total_OV       Decimal?  @db.Decimal(18, 2)
+  total_Factura  Decimal?  @db.Decimal(18, 2)
+  RN             Int?      @db.TinyInt
+}
+
+model Pedidos_Marketplace {
+  id          BigInt   @id(map: "PK__Pedidos___3213E83F1F768409")
+  fecha_venta DateTime @db.DateTime
+  monto       Decimal  @db.Decimal(12, 2)
+  canal_venta Int
+  almacen     String   @db.VarChar(50)
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B616BC617F2") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
