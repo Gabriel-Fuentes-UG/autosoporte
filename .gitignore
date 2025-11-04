@@ -39,7 +39,6 @@ next-env.d.ts
 # Prisma
 prisma/*.db
 prisma/*.db-journal
-prisma/seed.ts
 
 # Logs
 logs
