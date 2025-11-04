@@ -23,6 +23,7 @@ import {
 import {
   ContentPaste,
   Add,
+  Remove,
   Delete,
   Upload,
   CheckCircle,
@@ -63,6 +64,7 @@ export default function CodigosIC() {
     severity: 'info'
   });
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [cerosAgregados, setCerosAgregados] = useState(false); // Estado para el toggle
   const [resultModal, setResultModal] = useState({
     open: false,
     success: false,
@@ -109,6 +111,41 @@ export default function CodigosIC() {
       flex: 1,
       minWidth: 150,
       editable: true,
+      renderEditCell: (params) => {
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+          const newValue = event.target.value;
+          
+          if (newValue.length > 30) {
+            showAlert('Máximo 30 caracteres permitidos', 'warning');
+            return;
+          }
+          
+          params.api.setEditCellValue({
+            id: params.id,
+            field: params.field,
+            value: newValue,
+          });
+        };
+
+        return (
+          <input
+            value={params.value || ''}
+            onChange={handleChange}
+            maxLength={30}
+            autoFocus
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              outline: 'none',
+              padding: '8px',
+              fontSize: '0.875rem',
+              fontFamily: 'inherit',
+              backgroundColor: 'transparent'
+            }}
+          />
+        );
+      },
     },
     {
       field: 'codigoIC',
@@ -116,6 +153,41 @@ export default function CodigosIC() {
       flex: 1,
       minWidth: 150,
       editable: true,
+      renderEditCell: (params) => {
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+          const newValue = event.target.value;
+          
+          if (newValue.length > 30) {
+            showAlert('Máximo 30 caracteres permitidos', 'warning');
+            return;
+          }
+          
+          params.api.setEditCellValue({
+            id: params.id,
+            field: params.field,
+            value: newValue,
+          });
+        };
+
+        return (
+          <input
+            value={params.value || ''}
+            onChange={handleChange}
+            maxLength={30}
+            autoFocus
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              outline: 'none',
+              padding: '8px',
+              fontSize: '0.875rem',
+              fontFamily: 'inherit',
+              backgroundColor: 'transparent'
+            }}
+          />
+        );
+      },
     },
   ];
 
@@ -126,11 +198,22 @@ export default function CodigosIC() {
       
       // Usar Map para eliminar duplicados por artículo (mantiene el último)
       const uniqueMap = new Map<string, { articulo: string; codigoIC: string }>();
+      let caracteresExcedidos = 0;
       
       rows.forEach(row => {
         const [articulo, codigoIC] = row.split('\t');
-        const articuloTrimmed = articulo?.trim() || '';
-        const codigoICTrimmed = codigoIC?.trim() || '';
+        let articuloTrimmed = articulo?.trim() || '';
+        let codigoICTrimmed = codigoIC?.trim() || '';
+        
+        // Validar y truncar a 30 caracteres máximo
+        if (articuloTrimmed.length > 30) {
+          articuloTrimmed = articuloTrimmed.substring(0, 30);
+          caracteresExcedidos++;
+        }
+        if (codigoICTrimmed.length > 30) {
+          codigoICTrimmed = codigoICTrimmed.substring(0, 30);
+          caracteresExcedidos++;
+        }
         
         // Solo agregar si el artículo no está vacío
         if (articuloTrimmed) {
@@ -150,14 +233,19 @@ export default function CodigosIC() {
       if (newData.length > 0) {
         const duplicatesRemoved = rows.length - newData.length;
         setData(newData);
+        setCerosAgregados(false); // Resetear el estado al pegar nuevos datos
+        
+        let mensaje = `Datos pegados correctamente. ${newData.length} artículo${newData.length !== 1 ? 's' : ''} único${newData.length !== 1 ? 's' : ''}`;
         
         if (duplicatesRemoved > 0) {
-          showAlert(
-            `Datos pegados correctamente. Se encontraron ${newData.length} artículos únicos (${duplicatesRemoved} duplicados eliminados)`,
-            'success'
-          );
+          mensaje += ` (${duplicatesRemoved} duplicado${duplicatesRemoved !== 1 ? 's' : ''} eliminado${duplicatesRemoved !== 1 ? 's' : ''})`;
+        }
+        
+        if (caracteresExcedidos > 0) {
+          mensaje += `. ${caracteresExcedidos} campo${caracteresExcedidos !== 1 ? 's' : ''} truncado${caracteresExcedidos !== 1 ? 's' : ''} a 30 caracteres`;
+          showAlert(mensaje, 'warning');
         } else {
-          showAlert(`Datos pegados correctamente. ${newData.length} artículos únicos`, 'success');
+          showAlert(mensaje, 'success');
         }
       } else {
         showAlert('No se encontraron datos válidos en el portapapeles', 'warning');
@@ -169,6 +257,7 @@ export default function CodigosIC() {
 
   const handleLimpiarTabla = () => {
     setData([{ id: 1, articulo: '', codigoIC: '' }]);
+    setCerosAgregados(false); // Resetear el estado
     showAlert('Tabla limpiada', 'info');
   };
 
@@ -207,24 +296,61 @@ export default function CodigosIC() {
   };
 
   const handleAgregarCeroAlInicio = () => {
-    const updatedData = data.map(row => {
-      if (row.codigoIC && row.codigoIC.trim() !== '') {
-        // Evitar agregar múltiples ceros si ya empieza con 0
-        const codigoActual = row.codigoIC.trim();
-        if (!codigoActual.startsWith('0')) {
-          return { ...row, codigoIC: '0' + codigoActual };
+    if (cerosAgregados) {
+      // Quitar el cero al inicio
+      const updatedData = data.map(row => {
+        if (row.codigoIC && row.codigoIC.trim() !== '') {
+          const codigoActual = row.codigoIC.trim();
+          // Si empieza con 0, quitarlo
+          if (codigoActual.startsWith('0')) {
+            return { ...row, codigoIC: codigoActual.substring(1) };
+          }
         }
-      }
-      return row;
-    });
-    
-    setData(updatedData);
-    showAlert('Se agregó un "0" al inicio de los códigos IC', 'success');
+        return row;
+      });
+      
+      setData(updatedData);
+      setCerosAgregados(false);
+      showAlert('Se quitó el "0" del inicio de los códigos IC', 'info');
+    } else {
+      // Agregar el cero al inicio
+      const updatedData = data.map(row => {
+        if (row.codigoIC && row.codigoIC.trim() !== '') {
+          const codigoActual = row.codigoIC.trim();
+          // Solo agregar si no empieza con 0
+          if (!codigoActual.startsWith('0')) {
+            return { ...row, codigoIC: '0' + codigoActual };
+          }
+        }
+        return row;
+      });
+      
+      setData(updatedData);
+      setCerosAgregados(true);
+      showAlert('Se agregó un "0" al inicio de los códigos IC', 'success');
+    }
   };
 
   const handleActualizar = () => {
     if (!clienteSeleccionado) {
       showAlert('Por favor seleccione un cliente', 'warning');
+      return;
+    }
+
+    // Validar que todas las filas tengan ambos campos
+    const filasIncompletas = data.filter(row => {
+      const tieneArticulo = row.articulo && row.articulo.trim() !== '';
+      const tieneCodigoIC = row.codigoIC && row.codigoIC.trim() !== '';
+      
+      // Si tiene uno pero no el otro, está incompleta
+      return (tieneArticulo && !tieneCodigoIC) || (!tieneArticulo && tieneCodigoIC);
+    });
+
+    if (filasIncompletas.length > 0) {
+      showAlert(
+        `Hay ${filasIncompletas.length} fila${filasIncompletas.length !== 1 ? 's' : ''} incompleta${filasIncompletas.length !== 1 ? 's' : ''}. Cada fila debe tener Artículo Y Código IC, o estar completamente vacía.`,
+        'error'
+      );
       return;
     }
 
@@ -531,23 +657,24 @@ export default function CodigosIC() {
                 <Button
                   fullWidth
                   variant="contained"
-                  startIcon={<Add />}
+                  startIcon={cerosAgregados ? <Remove /> : <Add />}
                   onClick={handleAgregarCeroAlInicio}
                   disabled={loading}
                   sx={{
                     borderRadius: 0,
-                    bgcolor: '#f39c12',
+                    bgcolor: cerosAgregados ? '#e74c3c' : '#f39c12',
                     color: 'white',
                     fontWeight: 600,
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      bgcolor: '#e67e22',
+                      bgcolor: cerosAgregados ? '#c0392b' : '#e67e22',
                     },
                     '&:disabled': {
                       bgcolor: '#bdc3c7',
                     },
                   }}
                 >
-                  Agregar Cero al Inicio
+                  {cerosAgregados ? 'Quitar Cero al Inicio' : 'Agregar Cero al Inicio'}
                 </Button>
               )}
             </Box>
@@ -579,8 +706,7 @@ export default function CodigosIC() {
             {/* Warning Box */}
             <Alert severity="warning" sx={{ mt: 3, borderRadius: 0 }}>
               <Typography variant="body2">
-                <strong>Importante:</strong> Esta acción enviará los códigos IC al sistema externo.
-                Verifica los datos antes de continuar.
+                <strong>Importante: </strong> Verifica los datos antes de continuar.
               </Typography>
             </Alert>
           </Paper>
