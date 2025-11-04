@@ -14,9 +14,9 @@ const CreateUserSchema = z.object({
 const UpdateUserSchema = z.object({
   id: z.number(),
   username: z.string().min(3).max(100).optional(),
-  email: z.string().email().max(200).optional(),
-  password: z.string().min(6).optional(),
-  role: z.enum(['admin', 'user']).optional(),
+  email: z.string().email('Email inválido').max(200).optional().or(z.literal('')),
+  password: z.string().min(6, 'Mínimo 6 caracteres').optional().or(z.literal('')),
+  role: z.enum(['admin', 'user'], { errorMap: () => ({ message: 'Rol inválido' }) }).optional(),
   is_active: z.boolean().optional()
 });
 
@@ -186,6 +186,23 @@ export async function PUT(request: NextRequest) {
       }
     }
 
+    // Verificar si el nuevo email ya existe (si se está cambiando)
+    if (validData.email && validData.email.trim() !== '') {
+      const emailDuplicate = await prisma.iC_Users.findFirst({
+        where: {
+          email: validData.email,
+          id: { not: validData.id }
+        }
+      });
+
+      if (emailDuplicate) {
+        return NextResponse.json(
+          { success: false, error: 'El email ya está registrado' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Preparar datos de actualización
     const updateData: any = {
       updated_at: new Date()
@@ -195,7 +212,11 @@ export async function PUT(request: NextRequest) {
       updateData.username = validData.username;
     }
 
-    if (validData.password) {
+    if (validData.email && validData.email.trim() !== '') {
+      updateData.email = validData.email;
+    }
+
+    if (validData.password && validData.password.trim() !== '') {
       updateData.password_hash = await bcrypt.hash(validData.password, 12);
     }
 

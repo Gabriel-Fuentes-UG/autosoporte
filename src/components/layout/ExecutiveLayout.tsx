@@ -392,6 +392,23 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
               </Stack>
             </Box>
             <Divider />
+            {user?.role === 'user' && (
+              <>
+                <MenuItem 
+                  onClick={() => {
+                    handleClose();
+                    router.push('/user/perfil');
+                  }} 
+                  sx={{ py: 1.5, px: 3 }}
+                >
+                  <ListItemIcon>
+                    <Settings fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Configuración de Cuenta</ListItemText>
+                </MenuItem>
+                <Divider />
+              </>
+            )}
             <MenuItem onClick={handleLogout} sx={{ py: 1.5, px: 3, color: 'error.main' }}>
               <ListItemIcon>
                 <Logout fontSize="small" color="error" />

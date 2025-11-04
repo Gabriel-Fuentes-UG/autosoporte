@@ -26,12 +26,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Local env files (IMPORTANTE: nunca subir estas)
+# Local env files (IMPORTANTE: nunca subir)
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # Vercel
 .vercel
@@ -43,6 +39,7 @@ next-env.d.ts
 # Prisma
 prisma/*.db
 prisma/*.db-journal
+prisma/seed.ts
 
 # Logs
 logs
@@ -55,3 +52,9 @@ Thumbs.db
 *.bak
 *.backup
 *.old
+
+# Documentation (mantener solo README.md principal)
+PRISMA_SETUP.md
+ADMIN_USER.md
+docs/*.md
+!README.md

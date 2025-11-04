@@ -28,6 +28,11 @@ export default function UserManagement() {
   const [adminPassword, setAdminPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [alertDialog, setAlertDialog] = useState<{ open: boolean; type: 'success' | 'error'; message: string }>({ 
+    open: false, 
+    type: 'success', 
+    message: '' 
+  });
 
   useEffect(() => {
     fetchUsers();
@@ -42,7 +47,7 @@ export default function UserManagement() {
         setUsers(data.users);
       }
     } catch (err: any) {
-      setError('Error cargando usuarios');
+      setAlertDialog({ open: true, type: 'error', message: 'Error cargando usuarios' });
     } finally {
       setLoading(false);
     }
@@ -88,14 +93,23 @@ export default function UserManagement() {
       const data = await response.json();
       
       if (data.success) {
-        setSuccess(editingUser ? 'Usuario actualizado' : 'Usuario creado');
+        setAlertDialog({ 
+          open: true, 
+          type: 'success', 
+          message: editingUser ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente' 
+        });
         handleCloseDialog();
         fetchUsers();
       } else {
-        setError(data.error || 'Error en la operación');
+        // Mostrar error más detallado si está disponible
+        let errorMsg = data.error || 'Error en la operación';
+        if (data.details && Array.isArray(data.details)) {
+          errorMsg = data.details.map((d: any) => d.message).join(', ');
+        }
+        setAlertDialog({ open: true, type: 'error', message: errorMsg });
       }
     } catch (err: any) {
-      setError(err.message || 'Error en la operación');
+      setAlertDialog({ open: true, type: 'error', message: err.message || 'Error en la operación' });
     }
   };
 
@@ -110,10 +124,14 @@ export default function UserManagement() {
       const data = await response.json();
       if (data.success) {
         fetchUsers();
-        setSuccess(`Usuario ${!user.is_active ? 'habilitado' : 'deshabilitado'}`);
+        setAlertDialog({ 
+          open: true, 
+          type: 'success', 
+          message: `Usuario ${!user.is_active ? 'habilitado' : 'deshabilitado'} correctamente` 
+        });
       }
     } catch (err) {
-      setError('Error actualizando estado');
+      setAlertDialog({ open: true, type: 'error', message: 'Error actualizando estado del usuario' });
     }
   };
 
@@ -130,12 +148,12 @@ export default function UserManagement() {
       const data = await response.json();
       if (data.success) {
         fetchUsers();
-        setSuccess('Usuario eliminado');
+        setAlertDialog({ open: true, type: 'success', message: 'Usuario eliminado correctamente' });
       } else {
-        setError(data.error);
+        setAlertDialog({ open: true, type: 'error', message: data.error });
       }
     } catch (err) {
-      setError('Error eliminando usuario');
+      setAlertDialog({ open: true, type: 'error', message: 'Error eliminando usuario' });
     }
   };
 
@@ -189,8 +207,61 @@ export default function UserManagement() {
         </Box>
       </Box>
 
-      {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 0 }} onClose={() => setError('')}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mb: 2, borderRadius: 0 }} onClose={() => setSuccess('')}>{success}</Alert>}
+      {/* Diálogo de alertas modal */}
+      <Dialog
+        open={alertDialog.open}
+        onClose={() => setAlertDialog({ ...alertDialog, open: false })}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          '& .MuiDialog-paper': {
+            borderRadius: 0,
+            bgcolor: alertDialog.type === 'success' ? '#d4edda' : '#f8d7da',
+            border: `3px solid ${alertDialog.type === 'success' ? '#28a745' : '#dc3545'}`
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 2,
+          color: alertDialog.type === 'success' ? '#155724' : '#721c24',
+          fontWeight: 700
+        }}>
+          {alertDialog.type === 'success' ? (
+            <CheckCircle sx={{ fontSize: 40, color: '#28a745' }} />
+          ) : (
+            <Block sx={{ fontSize: 40, color: '#dc3545' }} />
+          )}
+          {alertDialog.type === 'success' ? '¡Éxito!' : 'Error'}
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ 
+            fontSize: 16, 
+            color: alertDialog.type === 'success' ? '#155724' : '#721c24',
+            py: 2
+          }}>
+            {alertDialog.message}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button
+            onClick={() => setAlertDialog({ ...alertDialog, open: false })}
+            variant="contained"
+            sx={{
+              bgcolor: alertDialog.type === 'success' ? '#28a745' : '#dc3545',
+              color: 'white',
+              borderRadius: 0,
+              fontWeight: 600,
+              '&:hover': {
+                bgcolor: alertDialog.type === 'success' ? '#218838' : '#c82333'
+              }
+            }}
+          >
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Vista Móvil - Cards */}
       {isMobile ? (
@@ -340,14 +411,14 @@ export default function UserManagement() {
         <DialogTitle sx={{ bgcolor: '#2c3e50', color: 'white' }}>
           {editingUser ? 'Editar Usuario' : 'Nuevo Usuario'}
         </DialogTitle>
-        <DialogContent sx={{ mt: 2, px: { xs: 2, sm: 3 } }}>
+        <DialogContent sx={{ mt: 1, px: { xs: 2, sm: 3 } }}>
           {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 0 }}>{error}</Alert>}
           <TextField
             fullWidth
-            label="Usuario"
+            sx={{ mb: 2, mt: 2, '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
+            label="Nombre de Usuario"
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
             size={isMobile ? 'small' : 'medium'}
           />
           <TextField

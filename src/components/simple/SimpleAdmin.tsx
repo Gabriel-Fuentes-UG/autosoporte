@@ -64,23 +64,45 @@ export default function SimpleAdmin() {
     if (!editing) return;
     try {
       if (!editing.id) {
-        // create
-        await fetch(apiPath('/api/admin/users'), {
+        // create - incluir email usando el username
+        const response = await fetch(apiPath('/api/admin/users'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: editing.username, password, role: editing.role }),
+          body: JSON.stringify({ 
+            username: editing.username, 
+            email: editing.username, 
+            password, 
+            role: editing.role 
+          }),
         });
+        const data = await response.json();
+        if (!data.success) {
+          alert(data.error || 'Error creando usuario');
+          return;
+        }
       } else {
-        await fetch(apiPath('/api/admin/users'), {
+        // update - solo enviar los campos necesarios
+        const updateBody: any = { id: editing.id };
+        if (editing.username) updateBody.username = editing.username;
+        if (password) updateBody.password = password;
+        if (editing.role) updateBody.role = editing.role;
+        
+        const response = await fetch(apiPath('/api/admin/users'), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: editing.id, username: editing.username, password: password || undefined, role: editing.role }),
+          body: JSON.stringify(updateBody),
         });
+        const data = await response.json();
+        if (!data.success) {
+          alert(data.error || 'Error actualizando usuario');
+          return;
+        }
       }
       setOpen(false);
       load();
     } catch (err) {
       console.error(err);
+      alert('Error en la operación');
     }
   };
 
