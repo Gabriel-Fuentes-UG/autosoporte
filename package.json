@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "next dev",
     "dev:clean": "rimraf .next && next dev",
+    "dev:server": "node server.js",
     "build": "prisma generate && next build",
+    "build:with-polyfill": "node -p \"global.Request = class MockRequest { constructor(url, opts = {}) { this.url = url; this.method = opts.method || 'GET'; } async json() { return {}; } }; 'Polyfill loaded'\" && prisma generate && next build --no-lint",
     "start": "next start",
+    "start:server": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "clean": "rimraf .next node_modules/.cache",

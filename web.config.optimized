@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <handlers>
+      <add name="iisnode" path="server.js" verb="*" modules="iisnode" />
+    </handlers>
+    
+    <!-- Configuración optimizada de iisnode -->
+    <iisnode 
+      nodeProcessCommandLine="node"
+      interceptor="iisnode/interceptor.js"
+      nodeProcessCountPerApplication="4"
+      maxConcurrentRequestsPerProcess="256"
+      maxNamedPipeConnectionRetry="100"
+      namedPipeConnectionRetryDelay="2000"
+      maxNamedPipeConnectionPoolSize="64"
+      maxNamedPipePooledConnectionAge="30000"
+      asyncCompletionThreadCount="0"
+      initialRequestBufferSize="4096"
+      maxRequestBufferSize="65536"
+      uncFileChangesPollingInterval="5000"
+      gracefulShutdownTimeout="60000"
+      loggingEnabled="true"
+      logDirectory="iisnode"
+      debuggingEnabled="false"
+      debugHeaderEnabled="false"
+      debuggerPortRange="5058-6058"
+      debuggerPathSegment="debug"
+      maxLogFileSizeInKB="128"
+      maxTotalLogFileSizeInKB="1024"
+      maxLogFiles="20"
+      devErrorsEnabled="false"
+      flushResponse="false"
+      enableXFF="false"
+      promoteServerVars=""
+      configOverrides="iisnode.yml"
+    />
+    
+    <!-- Reglas de reescritura optimizadas -->
+    <rewrite>
+      <rules>
+        <rule name="ReebokSoporte" stopProcessing="true">
+          <match url="/*" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="server.js" />
+        </rule>
+      </rules>
+    </rewrite>
+    
+    <!-- Configuración de seguridad y límites -->
+    <security>
+      <requestFiltering>
+        <requestLimits maxAllowedContentLength="104857600" maxQueryString="2048" />
+        <fileExtensions>
+          <add fileExtension=".js" allowed="true" />
+          <add fileExtension=".css" allowed="true" />
+          <add fileExtension=".png" allowed="true" />
+          <add fileExtension=".jpg" allowed="true" />
+          <add fileExtension=".gif" allowed="true" />
+          <add fileExtension=".ico" allowed="true" />
+          <add fileExtension=".svg" allowed="true" />
+        </fileExtensions>
+      </requestFiltering>
+    </security>
+    
+    <!-- Headers de cache optimizados -->
+    <httpProtocol>
+      <customHeaders>
+        <add name="X-Powered-By" value="NextJS + IISNode" />
+        <add name="X-Frame-Options" value="SAMEORIGIN" />
+        <add name="X-Content-Type-Options" value="nosniff" />
+      </customHeaders>
+    </httpProtocol>
+    
+    <!-- Compresión -->
+    <urlCompression doStaticCompression="true" doDynamicCompression="true" />
+    
+    <!-- Cache para archivos estáticos -->
+    <staticContent>
+      <clientCache cacheControlMode="UseMaxAge" cacheControlMaxAge="30.00:00:00" />
+    </staticContent>
+    
+    <!-- Error pages -->
+    <httpErrors errorMode="Custom" defaultResponseMode="ExecuteURL">
+      <remove statusCode="404" subStatusCode="-1" />
+      <error statusCode="404" path="/ReebokSoporte/404" responseMode="ExecuteURL" />
+    </httpErrors>
+    
+  </system.webServer>
+  
+  <!-- Configuración de conexión a base de datos -->
+  <appSettings>
+    <add key="NODE_ENV" value="production" />
+    <add key="NODE_TLS_REJECT_UNAUTHORIZED" value="1" />
+    <add key="UV_THREADPOOL_SIZE" value="16" />
+  </appSettings>
+  
+</configuration>
