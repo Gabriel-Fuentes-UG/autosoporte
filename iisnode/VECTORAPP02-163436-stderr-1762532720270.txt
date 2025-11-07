@@ -1,3 +1,0 @@
-[2025-11-07T16:25:21.206Z] (node:163436) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
-(Use `node --trace-deprecation ...` to show where the warning was created) 
-[2025-11-07T16:25:21.253Z]  ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues 
