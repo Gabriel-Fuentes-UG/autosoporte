@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import sql from 'mssql';
 
+
+// Forzar renderizado dinámico - no pregenerar durante el build
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const config = {
   server: process.env.DB_HOST || '',
   port: parseInt(process.env.DB_PORT || '1433'),

@@ -4,8 +4,12 @@ const next = require('next');
 const fs = require('fs');
 const path = require('path');
 
+// Cargar variables de entorno del archivo .env
+require('dotenv').config();
+
 // Configuración de logging
-const LOG_DIR = path.join(__dirname, 'logs');
+// Para IIS, usar una ruta absoluta accesible
+const LOG_DIR = process.env.LOG_DIR || path.join(__dirname, 'logs');
 if (!fs.existsSync(LOG_DIR)) {
   fs.mkdirSync(LOG_DIR, { recursive: true });
 }
@@ -61,15 +65,20 @@ console.warn = (...args) => {
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = process.env.HOSTNAME || 'localhost';
-const port = parseInt(process.env.PORT || '3000', 10);
+
+// IIS usa named pipes - el PORT viene como string "\\.\pipe\xxxxx"
+const port = process.env.PORT && !isNaN(process.env.PORT) 
+  ? parseInt(process.env.PORT, 10) 
+  : (process.env.PORT || 3000);
 
 // Usar NEXTAUTH_URL para determinar la URL base
-const baseUrl = process.env.NEXTAUTH_URL || `http://${hostname}:${port}`;
+const baseUrl = process.env.NEXTAUTH_URL || `http://${hostname}:${typeof port === 'number' ? port : 3000}`;
 
 writeLog('INFO', '🚀 Iniciando servidor Next.js', { 
   dev, 
   hostname, 
-  port,
+  port: typeof port === 'string' ? 'named-pipe' : port,
+  portType: typeof port,
   baseUrl,
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '/',
   nodeEnv: process.env.NODE_ENV,
@@ -115,8 +124,10 @@ app.prepare().then(() => {
     });
     process.exit(1);
   })
-  .listen(port, () => {
-    writeLog('INFO', `🌟 Servidor corriendo en ${baseUrl}`);
+  .listen(port, (err) => {
+    if (err) throw err;
+    const address = typeof port === 'string' ? `pipe ${port}` : `${baseUrl}`;
+    writeLog('INFO', `🌟 Servidor corriendo en ${address}`);
     writeLog('INFO', `Environment: ${dev ? 'development' : 'production'}`);
     writeLog('INFO', `Base Path: ${process.env.NEXT_PUBLIC_BASE_PATH || '/'}`);
   });

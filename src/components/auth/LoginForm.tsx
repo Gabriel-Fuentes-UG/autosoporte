@@ -18,6 +18,7 @@ import {
   Lock,
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
+import { apiPath, pagePath } from '@/lib/api-path';
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -59,11 +60,12 @@ export default function LoginForm() {
       const result = await login(credentials.username, credentials.password);
       
       // Redirigir inmediatamente según el rol
+      // Usar apiPath() porque window.location.href necesita el basePath completo
       if (result.success && result.role) {
         if (result.role === 'admin') {
-          window.location.href = '/admin/home';
+          window.location.href = apiPath('/admin/home');
         } else {
-          window.location.href = '/user/home';
+          window.location.href = apiPath('/user/home');
         }
       }
     } catch (err: any) {

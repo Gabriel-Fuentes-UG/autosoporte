@@ -6,6 +6,11 @@ const globalForPrisma = globalThis as unknown as {
 
 // Configuración optimizada de Prisma para SQL Server
 const createPrismaClient = () => {
+  // No crear cliente de Prisma durante el build
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    return null as any;
+  }
+  
   return new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
     errorFormat: 'pretty',

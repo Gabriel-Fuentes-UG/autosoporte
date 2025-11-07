@@ -109,7 +109,7 @@ export default function ICDashboard() {
     } catch (err) {
       console.error('❌ Error cargando dashboard:', err);
       
-      const errorMessage = err instanceof Error ? err.message : String(err);
+      const errorMessage = String(err);
       
       // Mostrar error de conexión
       setStats({

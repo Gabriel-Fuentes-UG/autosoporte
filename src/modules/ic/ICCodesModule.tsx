@@ -54,6 +54,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { hasPermission, PERMISSIONS } from '@/lib/permissions';
 import { ICCode } from '@/types/system';
+import { getStatusColors, getStatusLabel } from '@/lib/status-colors';
 
 interface TabPanelProps {
   children?: React.ReactNode;

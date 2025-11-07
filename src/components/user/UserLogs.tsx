@@ -33,6 +33,7 @@ import {
 } from '@mui/material';
 import { Visibility, Assignment } from '@mui/icons-material';
 import { apiPath } from '@/lib/api-path';
+import { getStatusColors, getStatusLabel } from '@/lib/status-colors';
 
 interface Log {
   id: number;
@@ -79,7 +80,7 @@ export default function UserLogs() {
       const data = await response.json();
 
       if (data.success) {
-        setLogs(data.logs || []);
+        setLogs(data.data?.logs || []);
       } else {
         setError(data.error || 'Error al cargar registros');
       }
@@ -94,13 +95,13 @@ export default function UserLogs() {
     setCodigosModal(prev => ({ ...prev, open: true, logId, loading: true }));
     
     try {
-      const response = await fetch(`/api/logs/${logId}/codes`);
+      const response = await fetch(apiPath(`/api/user/logs/${logId}/codes`));
       const data = await response.json();
       
       if (data.success) {
         setCodigosModal(prev => ({
           ...prev,
-          codes: data.codes,
+          codes: data.data?.codes || [],
           loading: false,
         }));
       }
@@ -143,18 +144,7 @@ export default function UserLogs() {
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toUpperCase()) {
-      case 'PROCESADO':
-        return { bg: alpha(theme.palette.success.main, 0.1), text: theme.palette.success.main };
-      case 'PENDIENTE':
-        return { bg: alpha(theme.palette.warning.main, 0.1), text: theme.palette.warning.main };
-      case 'ERROR':
-        return { bg: alpha(theme.palette.error.main, 0.1), text: theme.palette.error.main };
-      default:
-        return { bg: alpha(theme.palette.grey[500], 0.1), text: theme.palette.grey[700] };
-    }
-  };
+  // Función removida - ahora usamos la utilidad centralizada getStatusColors
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('es-ES', {
@@ -286,7 +276,7 @@ export default function UserLogs() {
                 </TableRow>
               ) : (
                 paginatedLogs.map((log) => {
-                  const colors = getStatusColor(log.status);
+                  const colors = getStatusColors(log.status);
                   return (
                     <TableRow 
                       key={log.id}
@@ -327,7 +317,7 @@ export default function UserLogs() {
                       </TableCell>
                       <TableCell>
                         <Chip
-                          label={log.status}
+                          label={getStatusLabel(log.status)}
                           size="small"
                           sx={{
                             bgcolor: colors.bg,

@@ -1,0 +1,19 @@
+[dotenv@17.2.3] injecting env (21) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[2025-11-06T19:56:21.570Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000/ReebokSoporte',
+  basePath: '/ReebokSoporte',
+  nodeEnv: 'production',
+  processId: 168208
+}
+[2025-11-06T19:56:22.622Z] ✅ Next.js preparado correctamente 
+[2025-11-06T19:56:22.825Z] 🌟 Servidor corriendo en pipe \\.\pipe\74476961-1c47-4554-b76f-204119232ae6 
+[2025-11-06T19:56:22.827Z] Environment: production 
+[2025-11-06T19:56:22.829Z] Base Path: /ReebokSoporte 
+[2025-11-06T19:56:22.839Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}

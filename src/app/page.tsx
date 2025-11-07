@@ -3,13 +3,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import { pagePath } from '@/lib/api-path';
 
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
     // El middleware redirigirá a /login
-    router.push('/login');
+    router.push(pagePath('/login'));
   }, [router]);
 
   return (

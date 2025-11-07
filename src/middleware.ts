@@ -1,16 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  // Redirigir / a /login
-  if (pathname === '/') {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Redirigir / (o /basePath/) a /login
+  if (pathname === '/' || pathname === basePath || pathname === `${basePath}/`) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = `${basePath}/login`;
+    return NextResponse.redirect(loginUrl);
   }
 
   // Permitir acceso público a /login y API de auth
-  if (pathname.startsWith('/login') || pathname.startsWith('/api/auth')) {
+  if (pathname.endsWith('/login') || pathname.includes('/api/auth')) {
     return NextResponse.next();
   }
 
@@ -20,17 +24,23 @@ export function middleware(request: NextRequest) {
 
   // Si no hay token, redirigir a login
   if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = `${basePath}/login`;
+    return NextResponse.redirect(loginUrl);
   }
 
   // Proteger rutas de admin
-  if (pathname.startsWith('/admin') && userRole !== 'admin') {
-    return NextResponse.redirect(new URL('/user/home', request.url));
+  if (pathname.includes('/admin') && userRole !== 'admin') {
+    const userHomeUrl = request.nextUrl.clone();
+    userHomeUrl.pathname = `${basePath}/user/home`;
+    return NextResponse.redirect(userHomeUrl);
   }
 
   // Proteger rutas de user
-  if (pathname.startsWith('/user') && userRole === 'admin') {
-    return NextResponse.redirect(new URL('/admin/home', request.url));
+  if (pathname.includes('/user') && userRole === 'admin') {
+    const adminHomeUrl = request.nextUrl.clone();
+    adminHomeUrl.pathname = `${basePath}/admin/home`;
+    return NextResponse.redirect(adminHomeUrl);
   }
 
   return NextResponse.next();
@@ -38,9 +48,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/',
-    '/admin/:path*',
-    '/user/:path*',
-    '/login',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

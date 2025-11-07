@@ -1,42 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Clientes de respaldo en caso de que el API externo falle
+
+// Forzar renderizado dinámico - no pregenerar durante el build
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+// FORZAR: Configurar Node.js para ignorar errores de certificado SSL
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
+// Importar módulos necesarios
+const https = require('https');
+
+// Cache en memoria para clientes externos
+let clientesCache: any = null;
+let cacheTimestamp: number = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos en milisegundos
+
+// Clientes de respaldo - SOLO datos reales del API externo
 const CLIENTES_RESPALDO = [
-  {
-    CardName: "SERVICIOS COMERCIALES AMAZON MEXICO",
-    CardCode: "C000000113"
-  },
-  {
-    CardName: "COPPEL",
-    CardCode: "C000000001"
-  },
-  {
-    CardName: "DISTRIBUIDORA LIVERPOOL",
-    CardCode: "C000000006"
-  },
-  {
-    CardName: "DEREMATE.COM DE MEXICO",
-    CardCode: "C000000033"
-  },
-  {
-    CardName: "SUBURBIA",
-    CardCode: "C000000114"
-  },
-  {
-    CardName: "INNOVA SPORT",
-    CardCode: "C000000013"
-  },
-  {
-    CardName: "DEPORTES MARTI",
-    CardCode: "C000000007"
-  }
+  { CardName: "DEREMATE.COM DE MEXICO", CardCode: "C000000033" },
+  { CardName: "DISTRIBUIDORA LIVERPOOL", CardCode: "C000000006" },
+  { CardName: "SUBURBIA", CardCode: "C000000114" },
+  { CardName: "SERVICIOS COMERCIALES AMAZON MEXICO", CardCode: "C000000113" },
+  { CardName: "DEPORTES MARTI", CardCode: "C000000007" },
+  { CardName: "INNOVA SPORT", CardCode: "C000000013" },
+  { CardName: "COPPEL", CardCode: "C000000001" }
 ];
 
 export async function GET(request: NextRequest) {
   try {
-    // Credenciales de autenticación básica
-    const apiUser = process.env.EXTERNAL_API_USER || 'UsrWhlsReebok';
-    const apiPassword = process.env.EXTERNAL_API_PASSWORD || 'AccesoWhslReebok2025@UnionGroup.Com';
+    // Verificar si tenemos datos en cache y son recientes
+    const now = Date.now();
+    if (clientesCache && (now - cacheTimestamp) < CACHE_DURATION) {
+      console.log(`⚡ Devolviendo clientes desde cache (${Math.round((now - cacheTimestamp) / 1000)}s antiguos)`);
+      return NextResponse.json({
+        success: true,
+        data: clientesCache,
+        source: 'cache',
+        cached: true,
+        cacheAge: Math.round((now - cacheTimestamp) / 1000)
+      });
+    }
+
+    // Intentar API externo con NODE_TLS_REJECT_UNAUTHORIZED=0
+
+    // Credenciales de autenticación básica (usar las que TÚ probaste)
+    const apiUser = process.env.EXTERNAL_API_USER || 'UsrRetailReebok';
+    const apiPassword = process.env.EXTERNAL_API_PASSWORD || 'AccesoRetailReebok2025@UnionGroup.Com';
     const basicAuth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64');
 
     // Construir URL desde variables de entorno
@@ -44,49 +54,103 @@ export async function GET(request: NextRequest) {
     const endpoint = process.env.EXTERNAL_API_CLIENTES_ENDPOINT || '/UnionGroup/API/Query/MasterData/ClientesParaCodigosIC';
     const fullUrl = `${baseUrl}${endpoint}`;
 
-    // Intentar obtener del API externo con timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos timeout
+    console.log(`🔄 Conectando a: ${fullUrl}`);
+    console.log(`🔑 Usuario: ${apiUser}`);
 
-    const response = await fetch(
-      fullUrl,
-      {
+    // Usar HTTPS request nativo de Node.js
+    const clientesData = await new Promise<any[]>((resolve, reject) => {
+      const url = new URL(fullUrl);
+      
+      const options = {
+        hostname: url.hostname,
+        port: url.port || 82,
+        path: url.pathname,
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Basic ${basicAuth}`,
+          'Accept': 'application/json',
+          'User-Agent': 'ReebokSoporte/1.0'
         },
-        cache: 'no-store',
-        signal: controller.signal,
-        // @ts-ignore - Node.js fetch options
-        rejectUnauthorized: false // Ignora errores de certificado SSL
-      }
-    );
+        rejectUnauthorized: false,
+        timeout: 20000
+      };
 
-    clearTimeout(timeoutId);
+      console.log(`🌐 ${options.hostname}:${options.port}${options.path}`);
 
-    if (!response.ok) {
-      console.warn('API externa respondió con error:', response.status);
-      throw new Error(`API externa respondió con status: ${response.status}`);
-    }
+      const req = https.request(options, (res: any) => {
+        let data = '';
+        res.on('data', (chunk: any) => data += chunk);
+        res.on('end', () => {
+          console.log(`📊 Status: ${res.statusCode}`);
+          if (res.statusCode === 200) {
+            try {
+              const parsed = JSON.parse(data);
+              console.log(`✅ ${parsed.length} clientes obtenidos`);
+              resolve(parsed);
+            } catch (e) {
+              console.error(`❌ JSON inválido`);
+              reject(new Error('JSON inválido'));
+            }
+          } else {
+            console.error(`❌ Status: ${res.statusCode}`);
+            reject(new Error(`Status: ${res.statusCode}`));
+          }
+        });
+      });
 
-    const clientes = await response.json();
+      req.on('error', (err: any) => {
+        console.error(`❌ Error: ${err.message}`);
+        reject(err);
+      });
 
-    return NextResponse.json({
-      success: true,
-      data: clientes,
-      source: 'external'
+      req.on('timeout', () => {
+        console.error(`❌ Timeout`);
+        req.destroy();
+        reject(new Error('Timeout'));
+      });
+
+      req.end();
     });
-  } catch (error: any) {
-    console.error('Error al obtener clientes del API externo:', error.message);
-    console.log('Usando clientes de respaldo...');
+
+    console.log(`📝 Respuesta recibida (primeros 200 chars): ${JSON.stringify(clientesData).substring(0, 200)}`);
+    console.log(`🔍 Tipo de clientesData:`, typeof clientesData, Array.isArray(clientesData) ? 'es array' : 'NO es array');
+    console.log(`🔍 Primer cliente:`, JSON.stringify(clientesData[0]));
+
+    // Guardar en cache
+    clientesCache = clientesData;
+    cacheTimestamp = Date.now();
+    console.log(`💾 ${clientesData.length} clientes guardados en cache por 5 minutos`);
+
+    const response = {
+      success: true,
+      data: clientesData,
+      source: 'external',
+      cached: false,
+      count: clientesData.length
+    };
     
-    // Usar clientes de respaldo
+    console.log(`📤 Enviando respuesta - tipo de data:`, typeof response.data, Array.isArray(response.data) ? 'es array' : 'NO es array');
+
+    return NextResponse.json(response);
+  } catch (error: any) {
+    console.error('❌ Error al obtener clientes del API externo:', error.message);
+    
+    if (error.name === 'AbortError') {
+      console.error('🕒 Timeout: El API externo tardó más de 30 segundos en responder');
+    }
+    
+    console.log('🔄 Usando clientes de respaldo...');
+    
+    // Usar clientes de respaldo - MOSTRAR CORRECTAMENTE el estado
+    console.log('🔄 Usando clientes de respaldo - API externo no disponible');
+    
     return NextResponse.json({
       success: true,
       data: CLIENTES_RESPALDO,
       source: 'backup',
-      warning: 'No se pudo conectar con el API externo, usando datos de respaldo'
+      count: CLIENTES_RESPALDO.length,
+      warning: 'No se pudo conectar con el API externo, usando datos de respaldo',
+      error: error.message
     });
   }
 }

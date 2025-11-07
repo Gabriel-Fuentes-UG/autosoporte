@@ -51,7 +51,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 import { hasPermission } from '@/lib/permissions';
-import { apiPath } from '@/lib/api-path';
+import { apiPath, pagePath } from '@/lib/api-path';
 
 const DRAWER_WIDTH = 280;
 
@@ -259,7 +259,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Typography
                 variant="h6"
-                onClick={() => router.push(user?.role === 'admin' ? '/admin/home' : '/user/home')}
+                onClick={() => router.push(pagePath(user?.role === 'admin' ? '/admin/home' : '/user/home'))}
                 sx={{
                   fontWeight: 700,
                   color: 'white',
@@ -397,7 +397,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                 <MenuItem 
                   onClick={() => {
                     handleClose();
-                    router.push('/user/perfil');
+                    router.push(pagePath('/user/perfil'));
                   }} 
                   sx={{ py: 1.5, px: 3 }}
                 >
@@ -444,7 +444,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
           <Box sx={{ mb: 3 }}>
             <ListItemButton
               onClick={() => {
-                router.push(mainTool.path);
+                router.push(pagePath(mainTool.path));
                 setDrawerOpen(false);
               }}
               sx={{
@@ -541,7 +541,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                       <ListItem key={index} disablePadding>
                         <ListItemButton
                           onClick={() => {
-                            router.push(item.path);
+                            router.push(pagePath(item.path));
                             setDrawerOpen(false);
                           }}
                           sx={{
@@ -621,7 +621,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
           {/* Herramienta Principal */}
           <Box sx={{ mb: 3 }}>
             <ListItemButton
-              onClick={() => router.push(mainTool.path)}
+              onClick={() => router.push(pagePath(mainTool.path))}
               sx={{
                 borderRadius: 0,
                 py: 2,
@@ -715,7 +715,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                     {section.items.map((item, index) => (
                       <ListItem key={index} disablePadding>
                         <ListItemButton
-                          onClick={() => router.push(item.path)}
+                          onClick={() => router.push(pagePath(item.path))}
                           sx={{
                             borderRadius: 0,
                             py: 1.5,

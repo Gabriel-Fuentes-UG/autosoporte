@@ -1,0 +1,10 @@
+# IISNode Configuration File
+# Variables de entorno para producción
+
+node_env: production
+
+# Estas variables se inyectan en process.env
+NEXT_PUBLIC_BASE_PATH: /ReebokSoporte
+NEXTAUTH_URL: https://localhost:81/ReebokSoporte
+NEXTAUTH_SECRET: SitioReebokSoporte2025
+NODE_TLS_REJECT_UNAUTHORIZED: 0

@@ -31,6 +31,7 @@ import {
   MoreVert,
   FiberManualRecord,
 } from '@mui/icons-material';
+import { getStatusColors, getStatusLabel } from '@/lib/status-colors';
 
 interface StatCardProps {
   title: string;
@@ -217,7 +218,8 @@ export default function ExecutiveDashboard() {
     { rank: 4, name: 'RBK-2024-C', count: 11, percentage: 5 },
   ];
 
-  const getStatusColor = (status: string) => {
+  const getStatusColorLocal = (status: string) => {
+    // Para datos mock del dashboard
     switch (status) {
       case 'success':
         return theme.palette.success.main;
@@ -225,12 +227,20 @@ export default function ExecutiveDashboard() {
         return theme.palette.warning.main;
       case 'error':
         return theme.palette.error.main;
+      // Para IC_Logs reales
+      case 'PROCESADO':
+        return getStatusColors(status).main;
+      case 'PENDIENTE':
+        return getStatusColors(status).main;
+      case 'FALLIDO':
+        return getStatusColors(status).main;
       default:
         return theme.palette.grey[500];
     }
   };
 
-  const getStatusLabel = (status: string) => {
+  const getStatusLabelLocal = (status: string) => {
+    // Para datos mock del dashboard
     switch (status) {
       case 'success':
         return 'Exitoso';
@@ -238,6 +248,11 @@ export default function ExecutiveDashboard() {
         return 'Pendiente';
       case 'error':
         return 'Error';
+      // Para IC_Logs reales
+      case 'PROCESADO':
+      case 'PENDIENTE':
+      case 'FALLIDO':
+        return getStatusLabel(status);
       default:
         return status;
     }
@@ -342,13 +357,13 @@ export default function ExecutiveDashboard() {
                         <TableCell>
                           <Chip
                             icon={<FiberManualRecord sx={{ fontSize: 12 }} />}
-                            label={getStatusLabel(log.status)}
+                            label={getStatusLabelLocal(log.status)}
                             size="small"
                             sx={{
                               fontSize: '0.7rem',
                               fontWeight: 600,
-                              bgcolor: alpha(getStatusColor(log.status), 0.1),
-                              color: getStatusColor(log.status),
+                              bgcolor: alpha(getStatusColorLocal(log.status), 0.1),
+                              color: getStatusColorLocal(log.status),
                             }}
                           />
                         </TableCell>

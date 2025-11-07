@@ -51,7 +51,8 @@ export const POST = withPrisma(async (request: NextRequest, prisma) => {
     await prisma.iC_Logs.create({
       data: {
         user: user.username,
-        client: 'SYSTEM',
+        folio_interno: `LOGIN-${Date.now()}`,
+        cliente: 'SYSTEM',
         action: 'LOGIN_SUCCESS',
         details: `Login exitoso desde IP: ${request.ip || 'unknown'}`
       }
@@ -80,7 +81,8 @@ export const POST = withPrisma(async (request: NextRequest, prisma) => {
       await prisma.iC_Logs.create({
         data: {
           user: 'UNKNOWN',
-          client: 'SYSTEM',
+          folio_interno: `LOGIN-ERROR-${Date.now()}`,
+          cliente: 'SYSTEM',
           action: 'LOGIN_ERROR',
           details: `Error de login: ${error instanceof Error ? error.message : 'Unknown error'}`
         }

@@ -3,6 +3,11 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 
+
+// Forzar renderizado dinámico - no pregenerar durante el build
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const UpdatePasswordSchema = z.object({
   userId: z.number(),
   currentPassword: z.string().min(6, 'La contraseña actual debe tener al menos 6 caracteres'),

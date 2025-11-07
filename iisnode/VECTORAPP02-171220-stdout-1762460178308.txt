@@ -1,0 +1,451 @@
+[dotenv@17.2.3] injecting env (21) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+[2025-11-06T20:16:18.474Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000/ReebokSoporte',
+  basePath: '/ReebokSoporte',
+  nodeEnv: 'production',
+  processId: 171220
+}
+[2025-11-06T20:16:19.489Z] ✅ Next.js preparado correctamente 
+[2025-11-06T20:16:19.682Z] 🌟 Servidor corriendo en pipe \\.\pipe\1190f364-0f8f-4235-8717-4618c4bc57dd 
+[2025-11-06T20:16:19.684Z] Environment: production 
+[2025-11-06T20:16:19.686Z] Base Path: /ReebokSoporte 
+[2025-11-06T20:16:19.749Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:16:20.492Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:16:20.648Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:16:32.107Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:16:40.422Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:16:53.582Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:17:00.743Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:18:49.383Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:18:55.781Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:19:12.636Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:42.648Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:43.640Z] 📡 Request: GET /ReebokSoporte/user/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:44.070Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:44.081Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:44.096Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:44.206Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:49.116Z] 📡 Request: GET /ReebokSoporte/user/codigos-ic?_rsc=1s3n2 {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:49.390Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:49.401Z] 📡 Request: GET /ReebokSoporte/api/clientes {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:22:49.588Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:24:40.508Z] 📡 Request: POST /ReebokSoporte/api/codigos-ic/actualizar {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:24:49.412Z] 📡 Request: GET /ReebokSoporte/user/mis-registros?_rsc=yz7kh {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:24:49.581Z] 📡 Request: GET /ReebokSoporte/api/user/logs {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:24:49.593Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:24:49.786Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:25:27.133Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T20:25:27.634Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T20:25:27.743Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T20:29:49.811Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:34:49.809Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:39:49.808Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:44:49.806Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:49:49.820Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:54:49.817Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:59:49.807Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:04:49.810Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:09:49.805Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:14:49.816Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:19:49.812Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:24:49.806Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:29:49.817Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:34:59.355Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:39:59.366Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:44:59.369Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:49:59.369Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:54:59.361Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T21:59:59.364Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:04:59.366Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:09:59.369Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:14:59.367Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:19:59.359Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:20:42.361Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:43.094Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:43.466Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:43.471Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:43.627Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:43.659Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:45.546Z] 📡 Request: GET /ReebokSoporte/admin/usuarios?_rsc=1m63m {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:45.796Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:45.812Z] 📡 Request: GET /ReebokSoporte/api/admin/users {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:45.906Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:45.984Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.266Z] 📡 Request: GET /ReebokSoporte/admin/usuarios {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.406Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.423Z] 📡 Request: GET /ReebokSoporte/api/admin/users {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.507Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.569Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:49.585Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:56.360Z] 📡 Request: GET /ReebokSoporte/admin/usuarios {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:56.855Z] 📡 Request: GET /ReebokSoporte/api/admin/users {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:56.871Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:56.871Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:56.949Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:20:57.106Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:24:59.366Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:25:57.289Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:29:59.366Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:31:39.491Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:34:59.365Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:36:39.638Z] 📡 Request: GET /ReebokSoporte/admin/usuarios {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:39.638Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:40.203Z] 📡 Request: GET /ReebokSoporte/api/admin/users {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:40.219Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:40.219Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:40.297Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:36:40.479Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:37:57.394Z] 📡 Request: POST /ReebokSoporte/api/auth/logout {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:37:57.465Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:37:57.734Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:37:57.743Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:13.471Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:13.799Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:14.175Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:14.184Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:14.195Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:14.577Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:16.484Z] 📡 Request: GET /ReebokSoporte/admin/codigos-ic?_rsc=1m63m {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:16.743Z] 📡 Request: GET /ReebokSoporte/api/clientes {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:16.751Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:16.979Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:18.656Z] 📡 Request: GET /ReebokSoporte/admin/usuarios?_rsc=3uh9g {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:18.750Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:18.764Z] 📡 Request: GET /ReebokSoporte/api/admin/users {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:18.781Z] 📡 Request: GET /ReebokSoporte/admin/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:38:18.890Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T22:42:23.057Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:47:23.981Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:51:41.765Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-06T22:56:41.684Z] 📡 Request: GET /ReebokSoporte/api/estadisticas {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, UserSession, ModuleAccess } from '@/types/system';
 import { getNavigationModules } from '@/lib/module-registry-simple';
 import { ROLE_PERMISSIONS } from '@/lib/permissions';
-import { apiPath } from '@/lib/api-path';
+import { apiPath, pagePath } from '@/lib/api-path';
 
 interface AuthContextType {
   user: User | null;
@@ -118,7 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setAvailableModules([]);
     
     // Forzar redirección inmediata
-    window.location.href = '/login';
+    window.location.href = apiPath('/login');
   };
 
   return (

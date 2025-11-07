@@ -62,6 +62,33 @@ export interface ICCode {
   metadata?: Record<string, any>;
 }
 
+// Tipos para logs de IC
+export type ICLogStatus = 'PROCESADO' | 'PENDIENTE' | 'FALLIDO' | 'ERROR';
+
+export interface ICLog {
+  id: number;
+  user: string;
+  folio_interno: string;
+  action: string;
+  details?: string;
+  created_at: Date;
+  cliente?: string;
+  status: ICLogStatus;
+  cliente_code?: string;
+  updated_by?: string;
+  updated_at?: Date;
+  codes?: ICLogCode[];
+  total_codigos?: number;
+}
+
+export interface ICLogCode {
+  id: number;
+  log_id: number;
+  producto: string;
+  codigo_ic: string;
+  created_at: Date;
+}
+
 export interface ICBatch {
   id: string;
   batchNumber: string;

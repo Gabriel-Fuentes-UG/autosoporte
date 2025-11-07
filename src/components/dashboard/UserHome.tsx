@@ -32,6 +32,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiPath } from '@/lib/api-path';
+import { getStatusColors, getStatusLabel } from '@/lib/status-colors';
 
 interface UserStats {
   totalLogs: number;
@@ -104,18 +105,7 @@ export default function UserHome() {
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toUpperCase()) {
-      case 'PROCESADO':
-        return { bg: '#27ae60', text: 'white' };
-      case 'PENDIENTE':
-        return { bg: '#f39c12', text: 'white' };
-      case 'ERROR':
-        return { bg: '#e74c3c', text: 'white' };
-      default:
-        return { bg: '#95a5a6', text: 'white' };
-    }
-  };
+  // Función removida - ahora usamos la utilidad centralizada getStatusColors
 
   return (
     <Box sx={{ p: 3 }}>
@@ -360,7 +350,7 @@ export default function UserHome() {
                 </TableHead>
                 <TableBody>
                   {stats.recentActivity.map((activity, index) => {
-                    const colors = getStatusColor(activity.status);
+                    const colors = getStatusColors(activity.status);
                     return (
                       <TableRow 
                         key={activity.id}
@@ -409,7 +399,7 @@ export default function UserHome() {
                         </TableCell>
                         <TableCell>
                           <Chip 
-                            label={activity.status} 
+                            label={getStatusLabel(activity.status)} 
                             size="small" 
                             sx={{ 
                               bgcolor: colors.bg,

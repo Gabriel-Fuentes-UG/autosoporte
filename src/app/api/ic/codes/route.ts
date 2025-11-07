@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+
+// Forzar renderizado dinámico - no pregenerar durante el build
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // GET - Obtener todos los códigos IC
 export async function GET() {
   try {

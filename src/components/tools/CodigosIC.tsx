@@ -27,7 +27,8 @@ import {
   Delete,
   Upload,
   CheckCircle,
-  ErrorOutline
+  ErrorOutline,
+  Refresh
 } from '@mui/icons-material';
 import { DataGrid, GridRowsProp, GridColDef, GridRowModel } from '@mui/x-data-grid';
 import { useAuth } from '@/contexts/AuthContext';
@@ -75,34 +76,55 @@ export default function CodigosIC() {
     details: null as any
   });
 
-  // Cargar clientes al montar el componente
-  useEffect(() => {
-    fetchClientes();
-  }, []);
-
+  // Función para cargar clientes
   const fetchClientes = async () => {
     try {
       setLoadingClientes(true);
+      
       const response = await fetch(apiPath('/api/clientes'));
       const result = await response.json();
 
       if (result.success && result.data) {
-        setClientes(result.data);
-        setClientesSource(result.source || 'external');
-        
-        if (result.source === 'backup') {
-          showAlert('⚠️ Usando lista de clientes local (no se pudo conectar con el servidor externo)', 'warning');
+        // Si data viene como string JSON, parsearlo
+        let clientesArray = result.data;
+        if (typeof result.data === 'string') {
+          clientesArray = JSON.parse(result.data);
         }
+        
+        // Asegurar que sea un array
+        if (!Array.isArray(clientesArray)) {
+          clientesArray = [];
+        }
+        
+        console.log(`✅ ${clientesArray.length} clientes recibidos`);
+        console.log('� Primeros 2 clientes:', clientesArray.slice(0, 2));
+        setClientes(clientesArray);
+        setClientesSource(result.source || 'backup');
+        
+        // Solo mostrar alerta si es desde cache o external exitoso
+        if (result.source === 'cache') {
+          showAlert(`⚡ Clientes cargados desde cache`, 'success');
+        } else if (result.source === 'external') {
+          showAlert('✅ Clientes cargados correctamente', 'success');
+        }
+        // No mostrar alerta para 'backup' - el mensaje amarillo ya lo indica
       } else {
+        console.error('❌ API no devolvió datos válidos:', result);
         showAlert('Error al cargar clientes', 'error');
       }
     } catch (error) {
-      console.error('Error fetching clientes:', error);
+      console.error('💥 Error fetching clientes:', error);
       showAlert('Error al conectar con el servidor', 'error');
     } finally {
       setLoadingClientes(false);
     }
   };
+
+  // Cargar clientes al montar el componente
+  useEffect(() => {
+    console.log('🚀 useEffect ejecutándose - iniciando fetchClientes');
+    fetchClientes();
+  }, []);
 
   const columns: GridColDef[] = [
     {
@@ -264,6 +286,19 @@ export default function CodigosIC() {
   const handleAgregarFila = () => {
     const newId = data.length > 0 ? Math.max(...data.map(d => d.id)) + 1 : 1;
     setData([...data, { id: newId, articulo: '', codigoIC: '' }]);
+  };
+
+  const handleRefreshClientes = async () => {
+    try {
+      // Limpiar cache primero
+      await fetch(apiPath('/api/clientes/refresh'), { method: 'POST' });
+      
+      // Luego refrescar la lista
+      await fetchClientes();
+    } catch (error) {
+      console.error('Error refreshing clientes:', error);
+      showAlert('Error al actualizar clientes', 'error');
+    }
   };
 
   const handleEliminarDuplicados = () => {
@@ -625,6 +660,25 @@ export default function CodigosIC() {
                 }}
               >
                 Agregar Fila
+              </Button>
+
+              <Button
+                fullWidth
+                variant="outlined"
+                startIcon={<Refresh />}
+                onClick={handleRefreshClientes}
+                disabled={loadingClientes}
+                sx={{
+                  borderRadius: 0,
+                  borderColor: '#3498db',
+                  color: '#3498db',
+                  '&:hover': {
+                    borderColor: '#2980b9',
+                    bgcolor: 'rgba(52, 152, 219, 0.04)',
+                  },
+                }}
+              >
+                {loadingClientes ? 'Actualizando...' : 'Actualizar Clientes'}
               </Button>
 
               {/* Botón para eliminar duplicados */}

@@ -40,6 +40,7 @@ import {
   Visibility,
 } from '@mui/icons-material';
 import { apiPath } from '@/lib/api-path';
+import { getStatusColors, getStatusLabel } from '@/lib/status-colors';
 
 interface Stats {
   totalTickets: number;
@@ -116,14 +117,7 @@ function HomeContent() {
     });
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, { bg: string; text: string }> = {
-      PENDIENTE: { bg: '#fbbf24', text: '#92400e' },
-      PROCESADO: { bg: '#22c55e', text: '#065f46' },
-      ERROR: { bg: '#ef4444', text: '#991b1b' },
-    };
-    return colors[status] || { bg: '#94a3b8', text: '#1e293b' };
-  };
+  // Función removida - ahora usamos la utilidad centralizada getStatusColors
 
   if (loading) {
     return (
@@ -620,7 +614,7 @@ function HomeContent() {
               >
                 <Stack spacing={1}>
                   {stats?.recientes?.map((log) => {
-                  const colors = getStatusColor(log.status);
+                  const colors = getStatusColors(log.status);
                   
                   return (
                     <Paper
@@ -702,7 +696,7 @@ function HomeContent() {
                           }}
                         >
                           <Chip
-                            label={log.status}
+                            label={getStatusLabel(log.status)}
                             size="small"
                             sx={{
                               bgcolor: colors.bg,

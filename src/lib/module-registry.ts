@@ -23,18 +23,23 @@ class ModuleRegistry {
   }
   
   getModulesForUser(user: User): ModuleAccess[] {
+    // Módulos comentados temporalmente - retornar array vacío
+    return [];
+    
+    /* COMENTADO - Descomentar cuando existan los módulos
     const userPermissions = ROLE_PERMISSIONS[user.role] || [];
     
     return this.getEnabledModules().map(module => ({
       moduleId: module.id,
       moduleName: module.name,
       hasAccess: module.permissions.some(permission => 
-        userPermissions.includes(permission.id as any)
+        userPermissions.includes(permission.id)
       ),
       permissions: module.permissions.filter(permission =>
         hasPermission(user.role, permission.id)
       )
     }));
+    */
   }
 }
 
@@ -43,6 +48,9 @@ export const moduleRegistry = new ModuleRegistry();
 
 // Función para cargar módulos del sistema
 export function loadSystemModules() {
+  /* 
+  // NOTA: Módulos comentados - componentes no existen aún
+  
   // Módulo principal: Códigos IC
   moduleRegistry.registerModule({
     id: 'ic-codes',
@@ -163,6 +171,7 @@ export function loadSystemModules() {
       }
     ]
   });
+  */
 
   console.log('🎉 Módulos del sistema cargados exitosamente');
 }

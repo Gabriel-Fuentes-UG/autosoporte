@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginForm from '@/components/auth/LoginForm';
-import { apiPath } from '@/lib/api-path';
+import { apiPath, pagePath } from '@/lib/api-path';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,9 +19,9 @@ export default function LoginPage() {
           if (data.user) {
             // Redirigir según el rol
             if (data.user.role === 'admin') {
-              router.push('/admin/home');
+              router.push(pagePath('/admin/home'));
             } else {
-              router.push('/user/home');
+              router.push(pagePath('/user/home'));
             }
             return;
           }

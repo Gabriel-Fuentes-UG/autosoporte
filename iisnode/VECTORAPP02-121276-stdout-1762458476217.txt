@@ -1,0 +1,18 @@
+[2025-11-06T19:47:56.360Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000',
+  basePath: '/',
+  nodeEnv: 'production',
+  processId: 121276
+}
+[2025-11-06T19:47:57.359Z] ✅ Next.js preparado correctamente 
+[2025-11-06T19:47:57.549Z] 🌟 Servidor corriendo en pipe \\.\pipe\90598237-815b-42ca-9a5f-7f692c49bcc0 
+[2025-11-06T19:47:57.550Z] Environment: production 
+[2025-11-06T19:47:57.552Z] Base Path: /ReebokSoporte 
+[2025-11-06T19:47:57.562Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}

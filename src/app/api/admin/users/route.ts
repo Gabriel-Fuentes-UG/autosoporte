@@ -3,6 +3,10 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 
+// Forzar renderizado dinámico - no pregenerar durante el build
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Schemas de validación
 const CreateUserSchema = z.object({
   username: z.string().min(3, 'Mínimo 3 caracteres').max(100),
@@ -29,7 +33,10 @@ function isAdmin(request: NextRequest): boolean {
 // GET - Obtener todos los usuarios
 export async function GET(request: NextRequest) {
   try {
+    console.log('👥 Fetching users list...');
+    
     if (!isAdmin(request)) {
+      console.log('❌ Access denied - not admin');
       return NextResponse.json({ error: 'Acceso denegado' }, { status: 403 });
     }
 
@@ -47,6 +54,8 @@ export async function GET(request: NextRequest) {
         created_at: 'desc'
       }
     });
+    
+    console.log(`✅ Found ${users.length} users`);
 
     return NextResponse.json({
       success: true,

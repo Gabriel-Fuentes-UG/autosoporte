@@ -1,0 +1,10 @@
+[2025-11-06T19:36:31.731Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: NaN,
+  baseUrl: 'http://localhost:NaN',
+  basePath: '/',
+  nodeEnv: 'production',
+  processId: 113824
+}
+[2025-11-06T19:36:32.733Z] ✅ Next.js preparado correctamente 
