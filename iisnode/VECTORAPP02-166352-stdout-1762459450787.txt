@@ -1,0 +1,27 @@
+[dotenv@17.2.3] injecting env (21) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+[2025-11-06T20:04:10.949Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000/ReebokSoporte',
+  basePath: '/ReebokSoporte',
+  nodeEnv: 'production',
+  processId: 166352
+}
+[2025-11-06T20:04:12.017Z] ✅ Next.js preparado correctamente 
+[2025-11-06T20:04:12.249Z] 🌟 Servidor corriendo en pipe \\.\pipe\76884c2e-ec27-4d62-b74f-5516c6fd1e52 
+[2025-11-06T20:04:12.251Z] Environment: production 
+[2025-11-06T20:04:12.253Z] Base Path: /ReebokSoporte 
+[2025-11-06T20:04:12.263Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:07:33.726Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:08:06.271Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}

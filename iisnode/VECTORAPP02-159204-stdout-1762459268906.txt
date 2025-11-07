@@ -1,0 +1,23 @@
+[dotenv@17.2.3] injecting env (21) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[2025-11-06T20:01:09.123Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000/ReebokSoporte',
+  basePath: '/ReebokSoporte',
+  nodeEnv: 'production',
+  processId: 159204
+}
+[2025-11-06T20:01:10.379Z] ✅ Next.js preparado correctamente 
+[2025-11-06T20:01:10.592Z] 🌟 Servidor corriendo en pipe \\.\pipe\5947a919-5bb6-4fc6-9338-482e7f96d1e1 
+[2025-11-06T20:01:10.594Z] Environment: production 
+[2025-11-06T20:01:10.596Z] Base Path: /ReebokSoporte 
+[2025-11-06T20:01:10.607Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
+[2025-11-06T20:01:17.894Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '::1'
+}
