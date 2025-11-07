@@ -1,0 +1,86 @@
+[dotenv@17.2.3] injecting env (21) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[2025-11-07T17:50:49.737Z] 🚀 Iniciando servidor Next.js {
+  dev: false,
+  hostname: 'localhost',
+  port: 'named-pipe',
+  portType: 'string',
+  baseUrl: 'http://localhost:3000/ReebokSoporte',
+  basePath: '/ReebokSoporte',
+  nodeEnv: 'production',
+  processId: 170492
+}
+[2025-11-07T17:50:50.767Z] ✅ Next.js preparado correctamente 
+[2025-11-07T17:50:50.955Z] 🌟 Servidor corriendo en pipe \\.\pipe\cdc34f55-8db9-4216-bd4b-1ab59ab50340 
+[2025-11-07T17:50:50.955Z] Environment: production 
+[2025-11-07T17:50:50.955Z] Base Path: /ReebokSoporte 
+[2025-11-07T17:50:51.034Z] 📡 Request: GET /ReebokSoporte/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:50:52.032Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:50:52.172Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:00.962Z] 📡 Request: POST /ReebokSoporte/api/auth/login {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:00.993Z] 🔐 Login attempt: [object Object] 
+[2025-11-07T17:51:01.641Z] 👤 User found: gabriel.fuentes@uniongroup.mx (user) 
+[2025-11-07T17:51:02.079Z] 🔑 Password match: true 
+[2025-11-07T17:51:02.204Z] 📡 Request: GET /ReebokSoporte/user/home {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:02.703Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:02.719Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:02.735Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:02.907Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:05.604Z] 📡 Request: GET /ReebokSoporte/user/mis-registros?_rsc=1s3n2 {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:05.885Z] 📡 Request: GET /ReebokSoporte/api/user/logs {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:05.901Z] 📡 Request: GET /ReebokSoporte/api/auth/session {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:06.089Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:08.019Z] 📡 Request: GET /ReebokSoporte/api/user/logs/33/codes {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:12.560Z] 📡 Request: GET /ReebokSoporte/api/user/logs/32/codes {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:51:41.116Z] 📡 Request: GET /ReebokSoporte/api/user/logs/33/codes {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}
+[2025-11-07T17:56:27.514Z] 📡 Request: GET /ReebokSoporte/api/user/stats {
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb',
+  ip: '201.98.216.178'
+}

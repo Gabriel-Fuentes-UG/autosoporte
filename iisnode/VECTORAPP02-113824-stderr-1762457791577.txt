@@ -1,8 +1,0 @@
-[2025-11-06T19:36:32.514Z] (node:113824) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
-(Use `node --trace-deprecation ...` to show where the warning was created) 
-[2025-11-06T19:36:32.736Z] ❌ Error preparando Next.js {
-  error: 'options.port should be >= 0 and < 65536. Received type number (NaN).',
-  stack: 'RangeError [ERR_SOCKET_BAD_PORT]: options.port should be >= 0 and < 65536. Received type number (NaN).\n' +
-    '    at Server.listen (node:net:2091:5)\n' +
-    '    at C:\\ReebokFiles\\ReebokSoporte_DEV\\server.js:119:4'
-}
