@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Forzar renderizado dinámico para esta ruta
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     // ✅ Prisma: Obtener todos los logs ordenados por fecha
