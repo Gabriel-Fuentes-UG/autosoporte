@@ -1,5 +1,5 @@
 generator client {
-  provider      = "prisma-client-js"
+  provider = "prisma-client-js"
   binaryTargets = ["native", "windows", "darwin", "darwin-arm64", "debian-openssl-3.0.x"]
 }
 
@@ -8,6 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Modelo de Usuarios del sistema IC
 model IC_Users {
   id            Int       @id(map: "PK__IC_Users__3213E83F3650DF97") @default(autoincrement())
   username      String    @unique(map: "UQ__IC_Users__F3DBC5723100E9EF") @db.NVarChar(100)
@@ -21,18 +22,20 @@ model IC_Users {
   @@map("IC_Users")
 }
 
+// Modelo de Logs de operaciones
 model IC_Logs {
-  id            Int        @id(map: "PK__IC_Logs__3213E83FB9DAC845") @default(autoincrement())
-  user          String     @db.NVarChar(100)
-  folio_interno String     @db.NVarChar(150)
-  action        String     @db.NVarChar(200)
-  details       String?    @db.NVarChar(Max)
-  created_at    DateTime?  @default(now())
-  cliente       String?    @db.NVarChar(200)
-  status        String     @default("PENDIENTE") @db.NVarChar(20)
-  cliente_code  String?    @db.NVarChar(50)
-  updated_by    String?    @db.NVarChar(100)
-  updated_at    DateTime?  @updatedAt
+  id            Int       @id(map: "PK__IC_Logs__3213E83FB9DAC845") @default(autoincrement())
+  user          String    @db.NVarChar(100)
+  folio_interno String    @db.NVarChar(150)
+  action        String    @db.NVarChar(200)
+  details       String?   @db.NVarChar(Max)
+  created_at    DateTime? @default(now())
+  cliente       String?   @db.NVarChar(200)
+  status        String    @default("PENDIENTE") @db.NVarChar(20)
+  cliente_code  String?   @db.NVarChar(50)
+  updated_by    String?   @db.NVarChar(100)
+  updated_at    DateTime? @updatedAt
+  
   codes         IC_Codes[]
 
   @@index([status], map: "IX_IC_Logs_status")
@@ -43,13 +46,15 @@ model IC_Logs {
   @@map("IC_Logs")
 }
 
+// Modelo de Códigos IC relacionados con logs
 model IC_Codes {
-  id         Int      @id(map: "PK__IC_Codes__3213E83F1CAF7DE9") @default(autoincrement())
+  id         Int       @id(map: "PK__IC_Codes__3213E83F1CAF7DE9") @default(autoincrement())
   log_id     Int
-  producto   String   @db.NVarChar(100)
-  codigo_ic  String   @db.NVarChar(100)
-  created_at DateTime @default(now())
-  log        IC_Logs  @relation(fields: [log_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  producto   String    @db.NVarChar(100)
+  codigo_ic  String    @db.NVarChar(100)
+  created_at DateTime  @default(now())
+  
+  log        IC_Logs   @relation(fields: [log_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([log_id], map: "IX_IC_Codes_log_id")
   @@index([log_id, producto], map: "IX_IC_Codes_log_producto")
