@@ -13,8 +13,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Permitir acceso público a /login y API de auth
-  if (pathname.endsWith('/login') || pathname.includes('/api/auth')) {
+  // Permitir acceso público a /login y todas las rutas API
+  if (pathname.endsWith('/login') || pathname.includes('/api/')) {
     return NextResponse.next();
   }
 
