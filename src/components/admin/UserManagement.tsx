@@ -78,7 +78,7 @@ export default function UserManagement() {
     setSuccess('');
 
     try {
-      const url = '/api/admin/users';
+      const url = apiPath('/api/admin/users');
       const method = editingUser ? 'PUT' : 'POST';
       const body = editingUser 
         ? { id: editingUser.id, ...formData }
