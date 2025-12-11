@@ -97,7 +97,7 @@ function HomeContent() {
   const fetchCodigosIC = async (logId: number) => {
     setCodigosModal({ open: true, logId, codes: [], loading: true });
     try {
-      const response = await fetch(`/api/logs/${logId}/codes`);
+      const response = await fetch(apiPath(`/api/logs/${logId}/codes`));
       if (response.ok) {
         const data = await response.json();
         setCodigosModal(prev => ({ ...prev, codes: data.codes || [], loading: false }));

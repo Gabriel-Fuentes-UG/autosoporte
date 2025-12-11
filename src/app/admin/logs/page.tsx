@@ -105,7 +105,7 @@ function LogsContent() {
 
   const fetchICCodes = async (logId: number) => {
     try {
-      const response = await fetch(`/api/logs/${logId}/codes`);
+      const response = await fetch(apiPath(`/api/logs/${logId}/codes`));
       if (response.ok) {
         const data = await response.json();
         setDetailsModal({
