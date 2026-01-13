@@ -21,13 +21,13 @@ async function createAdminUser() {
     if (existingAdmin) {
       console.log('ℹ️ El usuario admin ya existe');
       console.log('� Email: admin@reebok.com');
-      console.log('🔑 Contraseña: admin123');
+      console.log('🔑 Contraseña: SUPERVISORX#413017581');
       return existingAdmin;
     }
 
     // Crear usuario admin
     console.log('📝 Creando usuario administrador...');
-    const hashedPassword = await bcrypt.hash('admin123', 12);
+    const hashedPassword = await bcrypt.hash('SUPERVISORX#413017581', 12);
     
     const admin = await prisma.iC_Users.create({
       data: {

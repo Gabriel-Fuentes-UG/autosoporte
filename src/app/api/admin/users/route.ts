@@ -27,6 +27,8 @@ const UpdateUserSchema = z.object({
 // Verificar que el usuario es admin
 function isAdmin(request: NextRequest): boolean {
   const userRole = request.cookies.get('user_role')?.value;
+  console.log('🔍 Checking admin status:', { userRole, isAdmin: userRole === 'admin' });
+  console.log('📋 All cookies:', request.cookies.getAll());
   return userRole === 'admin';
 }
 
