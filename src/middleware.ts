@@ -13,7 +13,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Permitir acceso público a /login y todas las rutas API
+  // Permitir acceso público a /login y todas las rutas de API
+  // Las rutas de API manejan su propia autenticación y devuelven JSON
   if (pathname.endsWith('/login') || pathname.includes('/api/')) {
     return NextResponse.next();
   }
@@ -22,7 +23,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value;
   const userRole = request.cookies.get('user_role')?.value;
 
-  // Si no hay token, redirigir a login
+  // Si no hay token, redirigir a login (solo para páginas, no APIs)
   if (!token) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = `${basePath}/login`;

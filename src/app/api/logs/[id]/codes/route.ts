@@ -31,6 +31,8 @@ export async function GET(
 
     pool = await sql.connect(config);
     
+    console.log(`🔍 Fetching codes for log_id: ${logId}`);
+    
     const result = await pool.request()
       .input('logId', sql.Int, logId)
       .query(`
@@ -41,6 +43,8 @@ export async function GET(
         WHERE log_id = @logId
         ORDER BY id ASC
       `);
+
+    console.log(`✅ Found ${result.recordset.length} codes for log_id ${logId}`);
 
     return NextResponse.json({
       success: true,

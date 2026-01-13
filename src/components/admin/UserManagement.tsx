@@ -42,12 +42,26 @@ export default function UserManagement() {
     try {
       setLoading(true);
       const response = await fetch(apiPath('/api/admin/users'));
+      
+      if (!response.ok) {
+        console.error('Response not OK:', response.status, response.statusText);
+        const errorData = await response.json();
+        console.error('Error data:', errorData);
+        setAlertDialog({ open: true, type: 'error', message: errorData.error || 'Error cargando usuarios' });
+        return;
+      }
+      
       const data = await response.json();
+      console.log('Fetched users data:', data);
+      
       if (data.success) {
         setUsers(data.users);
+      } else {
+        setAlertDialog({ open: true, type: 'error', message: data.error || 'Error cargando usuarios' });
       }
     } catch (err: any) {
-      setAlertDialog({ open: true, type: 'error', message: 'Error cargando usuarios' });
+      console.error('Fetch users error:', err);
+      setAlertDialog({ open: true, type: 'error', message: err.message || 'Error cargando usuarios' });
     } finally {
       setLoading(false);
     }
