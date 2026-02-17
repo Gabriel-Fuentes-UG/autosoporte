@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   AppBar,
   Box,
@@ -48,6 +48,9 @@ import {
   Person,
   ExpandMore,
   Dashboard as DashboardIcon,
+  LocalShipping,
+  Replay,
+  Refresh,
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 import { hasPermission } from '@/lib/permissions';
@@ -62,6 +65,7 @@ interface ExecutiveLayoutProps {
 export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
   const theme = useTheme();
   const router = useRouter();
+  const pathname = usePathname();
   const { user, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -134,12 +138,9 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
   const getMenuItems = () => {
     if (user?.role === 'admin') {
       return {
-        mainTool: {
-          icon: <Code sx={{ fontSize: 22 }} />, 
-          label: 'Códigos IC', 
-          path: '/admin/codigos-ic',
-          description: 'Herramienta principal del sistema'
-        },
+        directLinks: [
+          { icon: <Code sx={{ fontSize: 22 }} />, label: 'Códigos IC', path: '/admin/codigos-ic', description: 'Herramienta de búsqueda' },
+        ],
         sections: [
           {
             title: 'Administración',
@@ -159,13 +160,17 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
     } else {
       // Usuario normal
       return {
-        mainTool: {
-          icon: <Code sx={{ fontSize: 22 }} />, 
-          label: 'Códigos IC', 
-          path: '/user/codigos-ic',
-          description: 'Herramienta de búsqueda'
-        },
+        directLinks: [
+          { icon: <Code sx={{ fontSize: 22 }} />, label: 'Códigos IC', path: '/user/codigos-ic', description: 'Herramienta de búsqueda' },
+        ],
         sections: [
+          {
+            title: 'Ordenes de Venta',
+            items: [
+              { icon: <Replay sx={{ fontSize: 22 }} />, label: 'Reenvío', path: '/user/ordenes-venta/reenvio', description: 'Reenvío a 3PL o actualización de dirección' },
+              { icon: <Refresh sx={{ fontSize: 22 }} />, label: 'Reprocesamiento', path: '/user/ordenes-venta/reprocesamiento', description: 'Corrección de costo cero o inventario negativo' },
+            ]
+          },
           {
             title: 'Mi Actividad',
             items: [
@@ -178,8 +183,19 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
   };
 
   const menuItems = getMenuItems();
-  const mainTool = menuItems.mainTool;
+  const directLinks = menuItems.directLinks;
   const accordionSections = menuItems.sections;
+
+  // Helper para verificar si una ruta está activa
+  const isPathActive = (path: string) => {
+    const fullPath = pagePath(path);
+    return pathname === fullPath || pathname?.startsWith(fullPath + '/');
+  };
+
+  // Helper para verificar si algún item de una sección está activo
+  const isSectionActive = (items: { path: string }[]) => {
+    return items.some(item => isPathActive(item.path));
+  };
 
   const getRoleBadge = (role: string) => {
     const config = {
@@ -440,68 +456,97 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
         }}
       >
         <Box sx={{ p: 3, pt: 2, mt: 8 }}>
-          {/* Herramienta Principal */}
-          <Box sx={{ mb: 3 }}>
+          {/* Header del Sidenav - Home */}
+          <ListItemButton
+            onClick={() => {
+              router.push(pagePath(user?.role === 'admin' ? '/admin/home' : '/user/home'));
+              setDrawerOpen(false);
+            }}
+            sx={{
+              borderRadius: 0,
+              py: 2,
+              px: 2,
+              mb: 2,
+              bgcolor: pathname?.includes('/home') ? alpha('#fff', 0.15) : 'transparent',
+              border: `1px solid ${alpha('#fff', 0.2)}`,
+              transition: 'all 0.2s',
+              '&:hover': {
+                bgcolor: alpha('#fff', 0.1),
+              },
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 700,
+                  color: 'white',
+                  fontSize: '0.9rem',
+                }}
+              >
+                AutoSoporte
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: alpha('#fff', 0.7), fontSize: '0.7rem' }}
+              >
+                Sistema de Gestión
+              </Typography>
+            </Box>
+          </ListItemButton>
+
+          <Divider sx={{ borderColor: alpha('#fff', 0.1), mb: 2 }} />
+
+          {/* Enlaces Directos */}
+          {directLinks.map((link, index) => {
+            const isActive = isPathActive(link.path);
+            return (
             <ListItemButton
+              key={index}
               onClick={() => {
-                router.push(pagePath(mainTool.path));
+                router.push(pagePath(link.path));
                 setDrawerOpen(false);
               }}
               sx={{
                 borderRadius: 0,
-                py: 2,
-                  px: 2,
-                  bgcolor: alpha('#fff', 0.15),
-                  border: `1px solid ${alpha('#fff', 0.2)}`,
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    bgcolor: alpha('#fff', 0.25),
-                    transform: 'translateX(4px)',
-                    '& .nav-arrow': {
-                      opacity: 1,
-                      transform: 'translateX(0)',
-                    }
-                  },
+                py: 1.5,
+                px: 2,
+                mb: 1,
+                bgcolor: isActive ? alpha('#fff', 0.15) : 'transparent',
+                border: `1px solid ${isActive ? alpha('#fff', 0.3) : alpha('#fff', 0.1)}`,
+                transition: 'all 0.2s',
+                '&:hover': {
+                  bgcolor: alpha('#fff', 0.1),
+                },
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  fontSize: '0.75rem',
+                  color: 'white',
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 40, color: 'white' }}>
-                  {mainTool.icon}
-                </ListItemIcon>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ fontWeight: 700, lineHeight: 1.3, mb: 0.3, color: 'white' }}
-                  >
-                    {mainTool.label}
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{ color: alpha('#fff', 0.7), fontSize: '0.7rem' }}
-                  >
-                    {mainTool.description}
-                  </Typography>
-                </Box>
-                <KeyboardArrowRight
-                  className="nav-arrow"
-                  sx={{
-                    fontSize: 18,
-                    color: 'white',
-                    opacity: 0,
-                    transform: 'translateX(-4px)',
-                    transition: 'all 0.2s',
-                  }}
-                />
-              </ListItemButton>
-            </Box>
+                {link.label}
+              </Typography>
+            </ListItemButton>
+          );
+          })}
 
           {/* Secciones con Acordeón */}
-          {accordionSections.map((section, sectionIndex) => (
+          {accordionSections.map((section, sectionIndex) => {
+            const sectionIsActive = isSectionActive(section.items);
+            return (
             <Accordion
               key={sectionIndex}
+              defaultExpanded={sectionIsActive}
                 sx={{
                   bgcolor: 'transparent',
                   boxShadow: 'none',
-                  border: `1px solid ${alpha('#fff', 0.1)}`,
+                  border: `1px solid ${sectionIsActive ? alpha('#fff', 0.3) : alpha('#fff', 0.1)}`,
                   borderRadius: '0 !important',
                   mb: 1,
                   '&:before': { display: 'none' },
@@ -537,7 +582,9 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                 </AccordionSummary>
                 <AccordionDetails sx={{ p: 0 }}>
                   <List sx={{ p: 0 }}>
-                    {section.items.map((item, index) => (
+                    {section.items.map((item, index) => {
+                      const itemIsActive = isPathActive(item.path);
+                      return (
                       <ListItem key={index} disablePadding>
                         <ListItemButton
                           onClick={() => {
@@ -549,6 +596,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                             py: 1.5,
                             px: 2,
                             pl: 4,
+                            bgcolor: itemIsActive ? alpha('#fff', 0.15) : 'transparent',
                             transition: 'all 0.2s',
                             '&:hover': {
                               bgcolor: alpha('#fff', 0.1),
@@ -560,7 +608,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                             },
                           }}
                         >
-                          <ListItemIcon sx={{ minWidth: 40, color: 'white' }}>
+                          <ListItemIcon sx={{ minWidth: 40, color: itemIsActive ? '#3498db' : 'white' }}>
                             {item.icon}
                           </ListItemIcon>
                           <Box sx={{ flexGrow: 1 }}>
@@ -582,18 +630,20 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                             sx={{
                               fontSize: 18,
                               color: 'white',
-                              opacity: 0,
-                              transform: 'translateX(-4px)',
+                              opacity: itemIsActive ? 1 : 0,
+                              transform: itemIsActive ? 'translateX(0)' : 'translateX(-4px)',
                               transition: 'all 0.2s',
                             }}
                           />
                         </ListItemButton>
                       </ListItem>
-                    ))}
+                    );
+                    })}
                   </List>
                 </AccordionDetails>
               </Accordion>
-          ))}
+            );
+          })}
         </Box>
 
       
@@ -618,65 +668,91 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
         }}
       >
         <Box sx={{ p: 3, pt: 2 }}>
-          {/* Herramienta Principal */}
-          <Box sx={{ mb: 3 }}>
+          {/* Header del Sidenav - Home */}
+          <ListItemButton
+            onClick={() => router.push(pagePath(user?.role === 'admin' ? '/admin/home' : '/user/home'))}
+            sx={{
+              borderRadius: 0,
+              py: 2,
+              px: 2,
+              mb: 2,
+              bgcolor: pathname?.includes('/home') ? alpha('#fff', 0.15) : 'transparent',
+              border: `1px solid ${alpha('#fff', 0.2)}`,
+              transition: 'all 0.2s',
+              '&:hover': {
+                bgcolor: alpha('#fff', 0.1),
+              },
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: 700,
+                  color: 'white',
+                  fontSize: '0.9rem',
+                }}
+              >
+                AutoSoporte
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: alpha('#fff', 0.7), fontSize: '0.7rem' }}
+              >
+                Sistema de Gestión
+              </Typography>
+            </Box>
+          </ListItemButton>
+
+          <Divider sx={{ borderColor: alpha('#fff', 0.1), mb: 2 }} />
+
+          {/* Enlaces Directos */}
+          {directLinks.map((link, index) => {
+            const isActive = isPathActive(link.path);
+            return (
             <ListItemButton
-              onClick={() => router.push(pagePath(mainTool.path))}
+              key={index}
+              onClick={() => router.push(pagePath(link.path))}
               sx={{
                 borderRadius: 0,
-                py: 2,
+                py: 1.5,
                 px: 2,
-                bgcolor: alpha('#fff', 0.15),
-                border: `1px solid ${alpha('#fff', 0.2)}`,
+                mb: 1,
+                bgcolor: isActive ? alpha('#fff', 0.15) : 'transparent',
+                border: `1px solid ${isActive ? alpha('#fff', 0.3) : alpha('#fff', 0.1)}`,
                 transition: 'all 0.2s',
                 '&:hover': {
-                  bgcolor: alpha('#fff', 0.25),
-                  transform: 'translateX(4px)',
-                  '& .nav-arrow': {
-                    opacity: 1,
-                    transform: 'translateX(0)',
-                  }
+                  bgcolor: alpha('#fff', 0.1),
                 },
               }}
             >
-              <ListItemIcon sx={{ minWidth: 40, color: 'white' }}>
-                {mainTool.icon}
-              </ListItemIcon>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="body2"
-                  sx={{ fontWeight: 700, lineHeight: 1.3, mb: 0.3, color: 'white' }}
-                >
-                  {mainTool.label}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{ color: alpha('#fff', 0.7), fontSize: '0.7rem' }}
-                >
-                  {mainTool.description}
-                </Typography>
-              </Box>
-              <KeyboardArrowRight
-                className="nav-arrow"
+              <Typography
+                variant="body2"
                 sx={{
-                  fontSize: 18,
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  fontSize: '0.75rem',
                   color: 'white',
-                  opacity: 0,
-                  transform: 'translateX(-4px)',
-                  transition: 'all 0.2s',
                 }}
-              />
+              >
+                {link.label}
+              </Typography>
             </ListItemButton>
-          </Box>
+          );
+          })}
 
           {/* Secciones con Acordeón */}
-          {accordionSections.map((section, sectionIndex) => (
+          {accordionSections.map((section, sectionIndex) => {
+            const sectionIsActive = isSectionActive(section.items);
+            return (
               <Accordion
                 key={sectionIndex}
+                defaultExpanded={sectionIsActive}
                 sx={{
                   bgcolor: 'transparent',
                   boxShadow: 'none',
-                  border: `1px solid ${alpha('#fff', 0.1)}`,
+                  border: `1px solid ${sectionIsActive ? alpha('#fff', 0.3) : alpha('#fff', 0.1)}`,
                   borderRadius: '0 !important',
                   mb: 1,
                   '&:before': { display: 'none' },
@@ -712,7 +788,9 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                 </AccordionSummary>
                 <AccordionDetails sx={{ p: 0 }}>
                   <List sx={{ p: 0 }}>
-                    {section.items.map((item, index) => (
+                    {section.items.map((item, index) => {
+                      const itemIsActive = isPathActive(item.path);
+                      return (
                       <ListItem key={index} disablePadding>
                         <ListItemButton
                           onClick={() => router.push(pagePath(item.path))}
@@ -721,6 +799,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                             py: 1.5,
                             px: 2,
                             pl: 4,
+                            bgcolor: itemIsActive ? alpha('#fff', 0.15) : 'transparent',
                             transition: 'all 0.2s',
                             '&:hover': {
                               bgcolor: alpha('#fff', 0.1),
@@ -732,7 +811,7 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                             },
                           }}
                         >
-                          <ListItemIcon sx={{ minWidth: 40, color: 'white' }}>
+                          <ListItemIcon sx={{ minWidth: 40, color: itemIsActive ? '#3498db' : 'white' }}>
                             {item.icon}
                           </ListItemIcon>
                           <Box sx={{ flexGrow: 1 }}>
@@ -754,18 +833,20 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
                           sx={{
                             fontSize: 18,
                             color: 'white',
-                            opacity: 0,
-                            transform: 'translateX(-4px)',
+                            opacity: itemIsActive ? 1 : 0,
+                            transform: itemIsActive ? 'translateX(0)' : 'translateX(-4px)',
                             transition: 'all 0.2s',
                           }}
                         />
                       </ListItemButton>
                     </ListItem>
-                  ))}
+                  );
+                  })}
                 </List>
                 </AccordionDetails>
               </Accordion>
-          ))}
+            );
+          })}
         </Box>
 
 
