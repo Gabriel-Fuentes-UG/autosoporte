@@ -143,6 +143,13 @@ export default function ExecutiveLayout({ children }: ExecutiveLayoutProps) {
         ],
         sections: [
           {
+            title: 'Ordenes de Venta',
+            items: [
+              { icon: <Replay sx={{ fontSize: 22 }} />, label: 'Reenvío', path: '/user/ordenes-venta/reenvio', description: 'Reenvío a 3PL o actualización de dirección' },
+              { icon: <Refresh sx={{ fontSize: 22 }} />, label: 'Reprocesamiento', path: '/user/ordenes-venta/reprocesamiento', description: 'Corrección de costo cero o inventario negativo' },
+            ]
+          },
+          {
             title: 'Administración',
             items: [
               { icon: <People sx={{ fontSize: 22 }} />, label: 'Usuarios', path: '/admin/usuarios', description: 'Gestión de usuarios' },
